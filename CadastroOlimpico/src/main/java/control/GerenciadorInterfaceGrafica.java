@@ -42,6 +42,7 @@ public class GerenciadorInterfaceGrafica {
     public static void main(String[] args) {
         FuncoesUteis.aplicarTemaClaro();
         GerenciadorInterfaceGrafica.getMyInstance().abrirPrincipal();
+        JOptionPane.showMessageDialog(null, "Este trabalho esta em desenvolvimento.", "Aviso", JOptionPane.WARNING_MESSAGE);
     }
     
     private JDialog abrirJanela(java.awt.Frame parent, JDialog dlg, Class classe) {
