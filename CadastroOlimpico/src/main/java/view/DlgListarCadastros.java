@@ -59,7 +59,7 @@ public class DlgListarCadastros extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tabela);
 
-        cmbFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A - Z", "Z - A", "Rank", "Medalhas", "Medalhas de ouro", "Medalhas de prata", "Medalhas de bronze", "Esportes", " " }));
+        cmbFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A - Z", "Z - A", "Rank", "Medalhas", "Medalhas de ouro", "Medalhas de prata", "Medalhas de bronze", "Esportes" }));
 
         jLabel1.setText("Filtrar");
 

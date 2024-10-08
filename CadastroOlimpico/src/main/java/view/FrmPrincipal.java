@@ -41,6 +41,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
+        setResizable(false);
         getContentPane().setLayout(null);
 
         cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/note_add.png"))); // NOI18N
