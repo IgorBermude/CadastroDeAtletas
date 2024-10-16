@@ -4,6 +4,8 @@
  */
 package view;
 
+import control.AtletaAbstractTableModel;
+
 /**
  *
  * @author Usuario
@@ -16,6 +18,9 @@ public class DlgListarCadastros extends javax.swing.JDialog {
     public DlgListarCadastros(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        //Associar a tableModel
+        tabela.setModel(new AtletaAbstractTableModel());
     }
 
     /**
