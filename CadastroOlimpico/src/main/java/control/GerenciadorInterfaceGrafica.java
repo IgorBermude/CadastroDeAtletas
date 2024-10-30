@@ -14,6 +14,8 @@ import view.DlgCadEsporte;
 import view.DlgCadTorneio;
 import view.DlgConfiguracoes;
 import view.DlgListarCadastros;
+import view.DlgResultado;
+import view.DlgTimes;
 import view.FrmPrincipal;
 
 /**
@@ -30,6 +32,8 @@ public class GerenciadorInterfaceGrafica {
     private DlgConfiguracoes conf = null;
     private DlgListarCadastros listCad = null;
     private DlgCadTorneio cadTor = null;
+    private DlgResultado res = null;
+    private DlgTimes tim = null;
     
     
     // SINGLETON
@@ -86,5 +90,13 @@ public class GerenciadorInterfaceGrafica {
     
     public void abrirCadastroTorneio(){
         abrirJanela(princ, cadTor, DlgCadTorneio.class);
+    }
+    
+    public void abrirResultado(){
+        abrirJanela(princ, res, DlgResultado.class);
+    }
+    
+    public void abrirVerTimes(){
+        abrirJanela(princ, tim, DlgTimes.class);
     }
 }

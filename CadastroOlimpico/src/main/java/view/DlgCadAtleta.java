@@ -177,6 +177,11 @@ public class DlgCadAtleta extends javax.swing.JDialog {
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/remove.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PainelMedalhasLayout = new javax.swing.GroupLayout(PainelMedalhas);
         PainelMedalhas.setLayout(PainelMedalhasLayout);
@@ -438,6 +443,10 @@ public class DlgCadAtleta extends javax.swing.JDialog {
         String pesq = lupa.getText();
         // Pegar o atleta pesquisado e inserir nos campos.
     }//GEN-LAST:event_lupaActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
