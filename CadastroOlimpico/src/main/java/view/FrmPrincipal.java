@@ -30,10 +30,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cadastrar = new javax.swing.JButton();
+        cadastrarAtleta = new javax.swing.JButton();
         adicionar = new javax.swing.JButton();
         buscar = new javax.swing.JButton();
-        editar = new javax.swing.JButton();
+        cadastrarTorneio = new javax.swing.JButton();
         conf = new javax.swing.JButton();
         listar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -44,23 +44,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(null);
 
-        cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/note_add.png"))); // NOI18N
-        cadastrar.setText("Cadastrar Atleta");
-        cadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
+        cadastrarAtleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/note_add.png"))); // NOI18N
+        cadastrarAtleta.setText("Cadastrar Atleta");
+        cadastrarAtleta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                cadastrarMouseEntered(evt);
+                cadastrarAtletaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                cadastrarMouseExited(evt);
+                cadastrarAtletaMouseExited(evt);
             }
         });
-        cadastrar.addActionListener(new java.awt.event.ActionListener() {
+        cadastrarAtleta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cadastrarActionPerformed(evt);
+                cadastrarAtletaActionPerformed(evt);
             }
         });
-        getContentPane().add(cadastrar);
-        cadastrar.setBounds(40, 120, 170, 50);
+        getContentPane().add(cadastrarAtleta);
+        cadastrarAtleta.setBounds(40, 120, 170, 50);
 
         adicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/favorite_add.png"))); // NOI18N
         adicionar.setText("Adicionar Esporte");
@@ -96,25 +96,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(buscar);
-        buscar.setBounds(420, 120, 170, 50);
+        buscar.setBounds(230, 230, 170, 50);
 
-        editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/note_edit.png"))); // NOI18N
-        editar.setText("Editar Atleta");
-        editar.addMouseListener(new java.awt.event.MouseAdapter() {
+        cadastrarTorneio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/vencedora.png"))); // NOI18N
+        cadastrarTorneio.setText("Cadastrar Torneio");
+        cadastrarTorneio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                editarMouseEntered(evt);
+                cadastrarTorneioMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                editarMouseExited(evt);
+                cadastrarTorneioMouseExited(evt);
             }
         });
-        editar.addActionListener(new java.awt.event.ActionListener() {
+        cadastrarTorneio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarActionPerformed(evt);
+                cadastrarTorneioActionPerformed(evt);
             }
         });
-        getContentPane().add(editar);
-        editar.setBounds(230, 230, 170, 50);
+        getContentPane().add(cadastrarTorneio);
+        cadastrarTorneio.setBounds(420, 120, 170, 50);
 
         conf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/process.png"))); // NOI18N
         conf.setText("Configurações");
@@ -166,9 +166,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+    private void cadastrarAtletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarAtletaActionPerformed
         GerenciadorInterfaceGrafica.getMyInstance().abrirCadastroAtleta();
-    }//GEN-LAST:event_cadastrarActionPerformed
+    }//GEN-LAST:event_cadastrarAtletaActionPerformed
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
         GerenciadorInterfaceGrafica.getMyInstance().abrirCadastroEsporte();
@@ -178,10 +178,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         GerenciadorInterfaceGrafica.getMyInstance().abrirBuscar();
     }//GEN-LAST:event_buscarActionPerformed
 
-    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        GerenciadorInterfaceGrafica.getMyInstance().abrirEditarAtleta();
-    }//GEN-LAST:event_editarActionPerformed
-
     private void confActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confActionPerformed
         GerenciadorInterfaceGrafica.getMyInstance().abrirConfiguracoes();
     }//GEN-LAST:event_confActionPerformed
@@ -190,9 +186,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         GerenciadorInterfaceGrafica.getMyInstance().abrirListarCadastros();
     }//GEN-LAST:event_listarActionPerformed
 
-    private void cadastrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarMouseEntered
-        cadastrar.setBackground(new Color(173, 216, 230));
-    }//GEN-LAST:event_cadastrarMouseEntered
+    private void cadastrarAtletaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarAtletaMouseEntered
+        cadastrarAtleta.setBackground(new Color(173, 216, 230));
+    }//GEN-LAST:event_cadastrarAtletaMouseEntered
 
     private void adicionarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarMouseEntered
         adicionar.setBackground(new Color(169, 169, 169));
@@ -206,17 +202,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         listar.setBackground(new Color(255, 255, 224));
     }//GEN-LAST:event_listarMouseEntered
 
-    private void editarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarMouseEntered
-        editar.setBackground(new Color(222, 184, 135));
-    }//GEN-LAST:event_editarMouseEntered
-
     private void confMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confMouseEntered
         conf.setBackground(new Color(144, 238, 144));
     }//GEN-LAST:event_confMouseEntered
 
-    private void cadastrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarMouseExited
-        cadastrar.setBackground(UIManager.getColor("control"));
-    }//GEN-LAST:event_cadastrarMouseExited
+    private void cadastrarAtletaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarAtletaMouseExited
+        cadastrarAtleta.setBackground(UIManager.getColor("control"));
+    }//GEN-LAST:event_cadastrarAtletaMouseExited
 
     private void adicionarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarMouseExited
         adicionar.setBackground(UIManager.getColor("control"));
@@ -230,21 +222,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
         listar.setBackground(UIManager.getColor("control"));
     }//GEN-LAST:event_listarMouseExited
 
-    private void editarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editarMouseExited
-        editar.setBackground(UIManager.getColor("control"));
-    }//GEN-LAST:event_editarMouseExited
-
     private void confMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confMouseExited
         conf.setBackground(UIManager.getColor("control"));
     }//GEN-LAST:event_confMouseExited
+
+    private void cadastrarTorneioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarTorneioActionPerformed
+        GerenciadorInterfaceGrafica.getMyInstance().abrirCadastroTorneio();
+    }//GEN-LAST:event_cadastrarTorneioActionPerformed
+
+    private void cadastrarTorneioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarTorneioMouseExited
+        cadastrarTorneio.setBackground(UIManager.getColor("control"));
+    }//GEN-LAST:event_cadastrarTorneioMouseExited
+
+    private void cadastrarTorneioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastrarTorneioMouseEntered
+        cadastrarTorneio.setBackground(new Color(222, 184, 135));
+    }//GEN-LAST:event_cadastrarTorneioMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionar;
     private javax.swing.JButton buscar;
-    private javax.swing.JButton cadastrar;
+    private javax.swing.JButton cadastrarAtleta;
+    private javax.swing.JButton cadastrarTorneio;
     private javax.swing.JButton conf;
-    private javax.swing.JButton editar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JButton listar;

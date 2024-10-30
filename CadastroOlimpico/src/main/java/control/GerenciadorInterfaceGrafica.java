@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 import view.DlgBuscar;
 import view.DlgCadAtleta;
 import view.DlgCadEsporte;
+import view.DlgCadTorneio;
 import view.DlgConfiguracoes;
-import view.DlgEditarAtleta;
 import view.DlgListarCadastros;
 import view.FrmPrincipal;
 
@@ -27,9 +27,9 @@ public class GerenciadorInterfaceGrafica {
     private DlgCadAtleta cadAtl = null;
     private DlgCadEsporte cadEsp = null;
     private DlgBuscar busc = null;
-    private DlgEditarAtleta editar = null;
     private DlgConfiguracoes conf = null;
     private DlgListarCadastros listCad = null;
+    private DlgCadTorneio cadTor = null;
     
     
     // SINGLETON
@@ -76,15 +76,15 @@ public class GerenciadorInterfaceGrafica {
         abrirJanela(princ, busc,  DlgBuscar.class );
     }
     
-    public void abrirEditarAtleta(){
-        abrirJanela(princ, editar,  DlgEditarAtleta.class );
-    }
-    
     public void abrirConfiguracoes(){
         abrirJanela(princ, conf,  DlgConfiguracoes.class );
     }
     
     public void abrirListarCadastros(){
         abrirJanela(princ, listCad,  DlgListarCadastros.class );
+    }
+    
+    public void abrirCadastroTorneio(){
+        abrirJanela(princ, cadTor, DlgCadTorneio.class);
     }
 }
