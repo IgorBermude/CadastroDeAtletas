@@ -4,13 +4,12 @@
  */
 package Model;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author 2022122760265
  */
-public class Torneio {
-    private Esporte esporte;
-    private ArrayList<Atleta> listaAtletas = new ArrayList();
+public class EsporteColetivo extends Esporte {
+    
+    
+    private List<Time> times
 }

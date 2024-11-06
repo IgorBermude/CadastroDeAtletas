@@ -8,10 +8,6 @@ package Model;
  *
  * @author 2022122760265
  */
-public class Esporte {
-    private byte[] foto;
-    private String nome;
-    private String descricao;
+public class EsporteIndividual extends Esporte{
     
-    private List<Atleta> atletas;
 }

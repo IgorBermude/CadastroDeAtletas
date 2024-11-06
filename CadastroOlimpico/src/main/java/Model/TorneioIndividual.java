@@ -8,6 +8,12 @@ package Model;
  *
  * @author 2022122760265
  */
-public class Individual extends Torneio{
+public class TorneioIndividual extends Torneio{
+    private EsporteIndividual esporte;    
+    private Date data;
+    private String local;
     
+    private List<Atleta> atletas;
+    
+    private Map<Atleta, Integer> Resultado;
 }
