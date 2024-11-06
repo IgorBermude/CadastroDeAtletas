@@ -14,4 +14,45 @@ public class Esporte {
     private String descricao;
     
     private List<Atleta> atletas;
+
+    public Esporte(byte[] foto, String nome, String descricao, <any> atletas) {
+        this.foto = foto;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.atletas = atletas;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setAtletas(<any> atletas) {
+        this.atletas = atletas;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public <any> getAtletas() {
+        return atletas;
+    }
+
+    
 }
