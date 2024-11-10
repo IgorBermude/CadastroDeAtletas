@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
 import view.DlgBuscar;
 import view.DlgCadAtleta;
 import view.DlgCadEsporte;
@@ -35,9 +36,18 @@ public class GerenciadorInterfaceGrafica {
     private DlgResultado res = null;
     private DlgTimes tim = null;
     
-    
+    GerenciadorDominio gerDom;
     // SINGLETON
     private static GerenciadorInterfaceGrafica myInstance = new GerenciadorInterfaceGrafica ();
+    
+    private GerenciadorInterfaceGrafica() {
+        try {
+            gerDom = new GerenciadorDominio();
+        } catch ( ExceptionInInitializerError | HibernateException ex) {
+            JOptionPane.showMessageDialog(princ, "ERRO ao abrir a conexão com o banco de dados.", "Abrir conexão:\n", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
 
     public static GerenciadorInterfaceGrafica getMyInstance() {
         return myInstance;
