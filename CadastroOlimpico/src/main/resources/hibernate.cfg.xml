@@ -16,13 +16,13 @@
     <property name="hibernate.format_sql">true</property>
     
     <!-- Mapeamento de Classes -->
-    <mapping class="model.Atleta" />
-    <mapping class="model.Esporte" />
-    <mapping class="model.EsporteColetivo" />
-    <mapping class="model.EsporteIndividual" />
-    <mapping class="model.Time" />
-    <mapping class="model.TorneioColetivo" />
-    <mapping class="model.TorneioIndividual" />
+    <mapping class="Model.Atleta"></mapping>
+    <mapping class="Model.Esporte"></mapping>
+    <mapping class="Model.EsporteColetivo"></mapping>
+    <mapping class="Model.EsporteIndividual"></mapping>
+    <mapping class="Model.Time"></mapping>
+    <mapping class="Model.TorneioColetivo"></mapping>
+    <mapping class="Model.TorneioIndividual"></mapping>
 
   </session-factory>
 </hibernate-configuration>
