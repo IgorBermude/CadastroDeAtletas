@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration">
+
+<hibernate-configuration>
+  <session-factory>
+    <!-- Configuração específica para PostgreSQL -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/postgres</property>
+    <property name="hibernate.connection.username">postgres</property> <!-- Insira o seu usuário do PostgreSQL -->
+    <property name="hibernate.connection.password">postgre</property> <!-- Insira a senha do PostgreSQL -->
+
+    <!-- Propriedades adicionais do Hibernate -->
+    <property name="hibernate.hbm2ddl.auto">update</property>   
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>
+    
+    <!-- Mapeamento de Classes -->
+    <mapping class="Model.Atleta"></mapping>
+    <mapping class="Model.Esporte"></mapping>
+    <mapping class="Model.EsporteColetivo"></mapping>
+    <mapping class="Model.EsporteIndividual"></mapping>
+    <mapping class="Model.Time"></mapping>
+    <mapping class="Model.TorneioColetivo"></mapping>
+    <mapping class="Model.TorneioIndividual"></mapping>
+
+  </session-factory>
+</hibernate-configuration>
