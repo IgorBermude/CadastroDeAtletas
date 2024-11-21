@@ -10,7 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import view.DlgBuscar;
-import view.DlgCadAtleta;
+import view.DlgGerAtleta;
 import view.DlgCadEsporte;
 import view.DlgCadTorneio;
 import view.DlgConfiguracoes;
@@ -27,7 +27,7 @@ public class GerenciadorInterfaceGrafica {
     
     //Declaração de janelas:
     private FrmPrincipal princ = null;
-    private DlgCadAtleta cadAtl = null;
+    private DlgGerAtleta cadAtl = null;
     private DlgCadEsporte cadEsp = null;
     private DlgBuscar busc = null;
     private DlgConfiguracoes conf = null;
@@ -79,7 +79,7 @@ public class GerenciadorInterfaceGrafica {
     }
     
     public void abrirCadastroAtleta(){
-        abrirJanela(princ, cadAtl,  DlgCadAtleta.class );
+        abrirJanela(princ, cadAtl,  DlgGerAtleta.class );
     }
     
     public void abrirCadastroEsporte(){
@@ -108,5 +108,10 @@ public class GerenciadorInterfaceGrafica {
     
     public void abrirVerTimes(){
         abrirJanela(princ, tim, DlgTimes.class);
+    }
+    
+    public Atleta abrirPesqAtleta() {
+        pesqAtl = (DlgPesqCliente) abrirJanela(princ, pesqCli, DlgPesqCliente.class );
+        return pesqCli.getCliSelecionado();
     }
 }

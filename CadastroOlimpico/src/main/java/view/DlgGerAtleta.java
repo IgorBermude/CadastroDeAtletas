@@ -4,22 +4,29 @@
  */
 package view;
 
+import Model.Atleta;
 import control.FuncoesUteis;
+import control.GerenciadorInterfaceGrafica;
+import java.awt.Color;
 import java.io.File;
+import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author 2022122760265
  */
-public class DlgCadAtleta extends javax.swing.JDialog {
+public class DlgGerAtleta extends javax.swing.JDialog {
 
+    private Atleta atlSelecionado;
+    
     /**
      * Creates new form CadAtleta
      */
-    public DlgCadAtleta(java.awt.Frame parent, boolean modal) {
+    public DlgGerAtleta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -74,6 +81,7 @@ public class DlgCadAtleta extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         lupa = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -301,6 +309,8 @@ public class DlgCadAtleta extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setText("Buscar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -319,14 +329,17 @@ public class DlgCadAtleta extends javax.swing.JDialog {
                     .addComponent(jLabel16)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2)
-                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -339,7 +352,9 @@ public class DlgCadAtleta extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -440,14 +455,87 @@ public class DlgCadAtleta extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void lupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lupaActionPerformed
-        String pesq = lupa.getText();
         // Pegar o atleta pesquisado e inserir nos campos.
+        atlSelecionado = GerenciadorInterfaceGrafica.getMyInstance().abrirPesqCliente();
+        
+        if ( atlSelecionado != null ) {
+            try {
+                preencherCampos(atlSelecionado);
+                habilitarBotoes();
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(this, ex, "Preencher dados do cliente", JOptionPane.ERROR_MESSAGE);
+            }
+        }        
+        
+        
     }//GEN-LAST:event_lupaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    
+    
+    private boolean validarCampos() {
+        
+        String msgErro = "";
+        
+        lblNome.setForeground(Color.black); 
+        lblCEP.setForeground(Color.black);
+        lblCpf.setForeground(Color.black);
+        lblNum.setForeground(Color.black);
+        lblDtNasc.setForeground(Color.black);
+                
+        if ( txtNome.getText().trim().isEmpty() ) {
+            msgErro = msgErro + "Digite seu nome.\n";
+            lblNome.setForeground(Color.red);            
+        }
+              
+        if ( txtCEP.getText().replace("-", "").trim().isEmpty() ) {
+            msgErro = msgErro + "Digite seu CEP.\n";
+            lblCEP.setForeground(Color.red);            
+        }
+        
+        if ( FuncoesUteis.isCPF( txtCpf.getText() ) == false  ) {
+            msgErro = msgErro + "CPF inválido.\n";
+            lblCpf.setForeground(Color.red); 
+        }
+        try {
+            int num = Integer.parseInt(txtNum.getText() );
+        }
+        catch (NumberFormatException erro) {
+            msgErro = msgErro + "Número inválido.\n";
+            lblNum.setForeground(Color.red); 
+        }
+        catch (Exception erro) {
+            msgErro = msgErro + erro.getMessage() + "\n";
+            lblNum.setForeground(Color.red); 
+        }             
+
+        if ( dtNasc.getDate() == null ) {
+            msgErro = msgErro + "Data inválida.\n";
+            lblDtNasc.setForeground(Color.red); 
+        } else {
+                
+            try {
+                dtNasc.getDate().toString();
+            }
+            catch (Exception erro) {
+                msgErro = msgErro + erro.getMessage() + "\n";
+                lblNum.setForeground(Color.red); 
+            }
+        }
+     
+        // COLOCAR VALIDAÇÃO DOS OUTROS CAMPOS
+        
+        if ( msgErro.isEmpty() ) {
+            return true;
+        } else {            
+            JOptionPane.showMessageDialog(this, msgErro, "Cadastro de Cliente",  JOptionPane.ERROR_MESSAGE  );
+            return false;
+        }
+        
+    } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Esporte;
@@ -476,6 +564,7 @@ public class DlgCadAtleta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;

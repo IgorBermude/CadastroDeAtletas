@@ -33,7 +33,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/imagens/png/24x24/note_add.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cadastrar Atleta"/>
+        <Property name="text" type="java.lang.String" value="Gerenciar Atleta"/>
       </Properties>
       <Events>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cadastrarAtletaMouseEntered"/>

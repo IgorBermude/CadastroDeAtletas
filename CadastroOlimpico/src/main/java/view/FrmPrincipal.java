@@ -45,7 +45,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         cadastrarAtleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/note_add.png"))); // NOI18N
-        cadastrarAtleta.setText("Cadastrar Atleta");
+        cadastrarAtleta.setText("Gerenciar Atleta");
         cadastrarAtleta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 cadastrarAtletaMouseEntered(evt);
