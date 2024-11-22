@@ -32,7 +32,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         cadastrarAtleta = new javax.swing.JButton();
         adicionar = new javax.swing.JButton();
-        buscar = new javax.swing.JButton();
         cadastrarTorneio = new javax.swing.JButton();
         conf = new javax.swing.JButton();
         listar = new javax.swing.JButton();
@@ -80,24 +79,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().add(adicionar);
         adicionar.setBounds(230, 120, 170, 50);
 
-        buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/page_search.png"))); // NOI18N
-        buscar.setText("Buscar Atleta");
-        buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                buscarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                buscarMouseExited(evt);
-            }
-        });
-        buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(buscar);
-        buscar.setBounds(230, 230, 170, 50);
-
         cadastrarTorneio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/vencedora.png"))); // NOI18N
         cadastrarTorneio.setText("Cadastrar Torneio");
         cadastrarTorneio.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,7 +113,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(conf);
-        conf.setBounds(420, 230, 170, 50);
+        conf.setBounds(340, 230, 170, 50);
 
         listar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/24x24/database_search.png"))); // NOI18N
         listar.setText("Listar Cadastros");
@@ -150,7 +131,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(listar);
-        listar.setBounds(40, 230, 170, 50);
+        listar.setBounds(130, 230, 170, 50);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Semilight", 3, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -174,10 +155,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         GerenciadorInterfaceGrafica.getMyInstance().abrirCadastroEsporte();
     }//GEN-LAST:event_adicionarActionPerformed
 
-    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        GerenciadorInterfaceGrafica.getMyInstance().abrirBuscar();
-    }//GEN-LAST:event_buscarActionPerformed
-
     private void confActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confActionPerformed
         GerenciadorInterfaceGrafica.getMyInstance().abrirConfiguracoes();
     }//GEN-LAST:event_confActionPerformed
@@ -194,10 +171,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         adicionar.setBackground(new Color(169, 169, 169));
     }//GEN-LAST:event_adicionarMouseEntered
 
-    private void buscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscarMouseEntered
-        buscar.setBackground(new Color(255, 182, 193));
-    }//GEN-LAST:event_buscarMouseEntered
-
     private void listarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listarMouseEntered
         listar.setBackground(new Color(255, 255, 224));
     }//GEN-LAST:event_listarMouseEntered
@@ -213,10 +186,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void adicionarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adicionarMouseExited
         adicionar.setBackground(UIManager.getColor("control"));
     }//GEN-LAST:event_adicionarMouseExited
-
-    private void buscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buscarMouseExited
-        buscar.setBackground(UIManager.getColor("control"));
-    }//GEN-LAST:event_buscarMouseExited
 
     private void listarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listarMouseExited
         listar.setBackground(UIManager.getColor("control"));
@@ -241,7 +210,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionar;
-    private javax.swing.JButton buscar;
     private javax.swing.JButton cadastrarAtleta;
     private javax.swing.JButton cadastrarTorneio;
     private javax.swing.JButton conf;

@@ -4,6 +4,7 @@
 
 package control;
 
+import Model.Atleta;
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JDialog;
@@ -15,6 +16,7 @@ import view.DlgCadEsporte;
 import view.DlgCadTorneio;
 import view.DlgConfiguracoes;
 import view.DlgListarCadastros;
+import view.DlgPesqAtleta;
 import view.DlgResultado;
 import view.DlgTimes;
 import view.FrmPrincipal;
@@ -29,7 +31,6 @@ public class GerenciadorInterfaceGrafica {
     private FrmPrincipal princ = null;
     private DlgGerAtleta cadAtl = null;
     private DlgCadEsporte cadEsp = null;
-    private DlgBuscar busc = null;
     private DlgConfiguracoes conf = null;
     private DlgListarCadastros listCad = null;
     private DlgCadTorneio cadTor = null;
@@ -86,10 +87,6 @@ public class GerenciadorInterfaceGrafica {
         abrirJanela(princ, cadEsp,  DlgCadEsporte.class );
     }
     
-    public void abrirBuscar(){
-        abrirJanela(princ, busc,  DlgBuscar.class );
-    }
-    
     public void abrirConfiguracoes(){
         abrirJanela(princ, conf,  DlgConfiguracoes.class );
     }
@@ -111,7 +108,7 @@ public class GerenciadorInterfaceGrafica {
     }
     
     public Atleta abrirPesqAtleta() {
-        pesqAtl = (DlgPesqCliente) abrirJanela(princ, pesqCli, DlgPesqCliente.class );
-        return pesqCli.getCliSelecionado();
+        pesqAtl = (DlgPesqAtleta) abrirJanela(princ, pesqAtl, DlgPesqAtleta.class );
+        return pesqAtl.getCliSelecionado();
     }
 }
