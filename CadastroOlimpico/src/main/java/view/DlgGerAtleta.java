@@ -5,11 +5,14 @@
 package view;
 
 import Model.Atleta;
+import Model.Esporte;
 import control.FuncoesUteis;
 import control.GerenciadorInterfaceGrafica;
 import java.awt.Color;
 import java.io.File;
 import java.text.ParseException;
+import java.util.Date;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -23,12 +26,16 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
     private Atleta atlSelecionado;
     
+    String formatoData = "dd/MM/yyyy";   // Formato da data esperado
+    Icon icone;
+    
     /**
      * Creates new form CadAtleta
      */
     public DlgGerAtleta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        icone = lblFoto.getIcon();
     }
 
     /**
@@ -42,16 +49,16 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        grpSexo = new javax.swing.ButtonGroup();
         PainelTitulo = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JLabel();
         PainelSobre = new javax.swing.JPanel();
-        Esporte = new javax.swing.JComboBox<>();
-        txtEsporte = new javax.swing.JLabel();
+        cmbEsporte = new javax.swing.JComboBox<>();
+        lblEsporte = new javax.swing.JLabel();
         ScrollPaneSobre = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        Nacionalidade = new javax.swing.JComboBox<>();
-        txtNacionalidade = new javax.swing.JLabel();
+        paneSobre = new javax.swing.JTextPane();
+        cmbNacionalidade = new javax.swing.JComboBox<>();
+        lblNacionalidade = new javax.swing.JLabel();
         txtSobre = new javax.swing.JLabel();
         PainelMedalhas = new javax.swing.JPanel();
         txtMedalhas = new javax.swing.JLabel();
@@ -63,22 +70,23 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         SpinnerMedalhaBronze = new javax.swing.JSpinner();
         btnAdicionar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        lblNome = new javax.swing.JLabel();
+        txtnome = new javax.swing.JTextField();
+        lblCPF = new javax.swing.JLabel();
+        txtCPF = new javax.swing.JFormattedTextField();
+        lblDtNasc = new javax.swing.JLabel();
+        txtDtNascimento = new javax.swing.JFormattedTextField();
+        lblCelular = new javax.swing.JLabel();
+        txtCelular = new javax.swing.JTextField();
         lblFoto = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         lupa = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -99,26 +107,26 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         txtTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         PainelTitulo.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, 530, -1));
 
-        Esporte.setMaximumRowCount(5);
-        Esporte.addActionListener(new java.awt.event.ActionListener() {
+        cmbEsporte.setMaximumRowCount(5);
+        cmbEsporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EsporteActionPerformed(evt);
+                cmbEsporteActionPerformed(evt);
             }
         });
 
-        txtEsporte.setText("Esporte");
+        lblEsporte.setText("Esporte");
 
-        ScrollPaneSobre.setViewportView(jTextPane1);
+        ScrollPaneSobre.setViewportView(paneSobre);
 
-        Nacionalidade.setMaximumRowCount(5);
-        Nacionalidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Afeganistão", "Albânia", "Andorra", "Angola", "Antígua e Barbuda", "Argélia", "Argentina", "Armênia", "Austrália", "Áustria", "Azerbaijão", "Bahamas", "Bahrein", "Barbados", "Bélgica", "Bielorrússia", "Bósnia e Herzegovina", "Botsuana", "Bolívia", "Botswana", "Brasil", "Brunei", "Bulgária", "Butão", "Cabo Verde", "Camarões", "Cazaquistão", "Cambodja", "Canadá", "Chile", "China", "Chipre", "Colômbia", "Comores", "Congo, República do", "Congo, República Democrática do", "Costa do Marfim", "Croácia", "Cuba", "Dinamarca", "Dominica", "Egito", "El Salvador", "Emirados Árabes Unidos", "Equador", "Eritreia", "Essuatíni (Suazilândia)", "Espanha", "Estados Unidos", "Estônia", "Etiópia", "Fiji", "Filipinas", "Finlândia", "França", "Gabão", "Gâmbia", "Gana", "Geórgia", "Granada", "Guiana", "Guiana Francesa", "Haiti", "Honduras", "Hong Kong", "Hungria", "Islândia", "Índia", "Indonésia", "Irã", "Iraque", "Irlanda", "Israel", "Itália", "Jamaica", "Japão", "Jordânia", "Kuwait", "Laos", "Líbano", "Libéria", "Lituânia", "Luxemburgo", "Macedônia do Norte", "Madagáscar", "Malásia", "Malavi", "Maldivas", "Marrocos", "Mauritânia", "Maurícias", "México", "Micronésia", "Mongólia", "Montenegro", "Moçambique", "Mônaco", "Myanmar (Birmânia)", "Namíbia", "Nauru", "Nepal", "Nicarágua", "Nigéria", "Noruega", "Nova Zelândia", "Omã", "Paquistão", "Palau", "Panamá", "Papua Nova Guiné", "Paraguai", "Peru", "Polônia", "Portugal", "Quênia", "Qatar", "República Centro-Africana", "República Checa", "Romênia", "Ruanda", "São Cristóvão e Nevis", "São Tomé e Príncipe", "Senegal", "Serra Leoa", "Síria", "Singapura", "Sri Lanka", "Suécia", "Suíça", "Suriname", "Tajiquistão", "Tanzânia", "Tailândia", "Tonga", "Turcomenistão", "Turquia", "Tuvalu", "Ucrânia", "Uzbequistão", "Vanuatu", "Venezuela", "Vietnã", "Zâmbia", "Zimbábue" }));
-        Nacionalidade.addActionListener(new java.awt.event.ActionListener() {
+        cmbNacionalidade.setMaximumRowCount(5);
+        cmbNacionalidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Afeganistão", "Albânia", "Andorra", "Angola", "Antígua e Barbuda", "Argélia", "Argentina", "Armênia", "Austrália", "Áustria", "Azerbaijão", "Bahamas", "Bahrein", "Barbados", "Bélgica", "Bielorrússia", "Bósnia e Herzegovina", "Botsuana", "Bolívia", "Botswana", "Brasil", "Brunei", "Bulgária", "Butão", "Cabo Verde", "Camarões", "Cazaquistão", "Cambodja", "Canadá", "Chile", "China", "Chipre", "Colômbia", "Comores", "Congo, República do", "Congo, República Democrática do", "Costa do Marfim", "Croácia", "Cuba", "Dinamarca", "Dominica", "Egito", "El Salvador", "Emirados Árabes Unidos", "Equador", "Eritreia", "Essuatíni (Suazilândia)", "Espanha", "Estados Unidos", "Estônia", "Etiópia", "Fiji", "Filipinas", "Finlândia", "França", "Gabão", "Gâmbia", "Gana", "Geórgia", "Granada", "Guiana", "Guiana Francesa", "Haiti", "Honduras", "Hong Kong", "Hungria", "Islândia", "Índia", "Indonésia", "Irã", "Iraque", "Irlanda", "Israel", "Itália", "Jamaica", "Japão", "Jordânia", "Kuwait", "Laos", "Líbano", "Libéria", "Lituânia", "Luxemburgo", "Macedônia do Norte", "Madagáscar", "Malásia", "Malavi", "Maldivas", "Marrocos", "Mauritânia", "Maurícias", "México", "Micronésia", "Mongólia", "Montenegro", "Moçambique", "Mônaco", "Myanmar (Birmânia)", "Namíbia", "Nauru", "Nepal", "Nicarágua", "Nigéria", "Noruega", "Nova Zelândia", "Omã", "Paquistão", "Palau", "Panamá", "Papua Nova Guiné", "Paraguai", "Peru", "Polônia", "Portugal", "Quênia", "Qatar", "República Centro-Africana", "República Checa", "Romênia", "Ruanda", "São Cristóvão e Nevis", "São Tomé e Príncipe", "Senegal", "Serra Leoa", "Síria", "Singapura", "Sri Lanka", "Suécia", "Suíça", "Suriname", "Tajiquistão", "Tanzânia", "Tailândia", "Tonga", "Turcomenistão", "Turquia", "Tuvalu", "Ucrânia", "Uzbequistão", "Vanuatu", "Venezuela", "Vietnã", "Zâmbia", "Zimbábue" }));
+        cmbNacionalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NacionalidadeActionPerformed(evt);
+                cmbNacionalidadeActionPerformed(evt);
             }
         });
 
-        txtNacionalidade.setText("Nacionalidade");
+        lblNacionalidade.setText("Nacionalidade");
 
         txtSobre.setText("Sobre o Atleta");
 
@@ -136,13 +144,13 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                         .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSobre)
                             .addGroup(PainelSobreLayout.createSequentialGroup()
-                                .addComponent(txtEsporte)
+                                .addComponent(lblEsporte)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Esporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
-                                .addComponent(txtNacionalidade)
+                                .addComponent(lblNacionalidade)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Nacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -152,11 +160,11 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                 .addGap(13, 13, 13)
                 .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Nacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtNacionalidade))
+                        .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblNacionalidade))
                     .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Esporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtEsporte)))
+                        .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblEsporte)))
                 .addGap(18, 18, 18)
                 .addComponent(txtSobre)
                 .addGap(1, 1, 1)
@@ -182,12 +190,26 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/add.png"))); // NOI18N
         btnAdicionar.setText("Adicionar Atleta");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/remove.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/repeat.png"))); // NOI18N
+        btnAlterar.setMnemonic('A');
+        btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarbtnNovoActionPerformed(evt);
             }
         });
 
@@ -218,6 +240,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelMedalhasLayout.createSequentialGroup()
                 .addComponent(btnCancelar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAlterar)
+                .addGap(89, 89, 89)
                 .addComponent(btnAdicionar))
         );
         PainelMedalhasLayout.setVerticalGroup(
@@ -242,35 +266,36 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                 .addGap(3, 3, 3)
                 .addGroup(PainelMedalhasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
-                    .addComponent(btnCancelar)))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnAlterar)))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setPreferredSize(new java.awt.Dimension(788, 301));
 
-        jLabel1.setText("Nome");
+        lblNome.setText("Nome");
 
-        jLabel2.setText("CPF");
+        lblCPF.setText("CPF");
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jLabel3.setText("Dt Nasc");
+        lblDtNasc.setText("Dt Nasc");
 
         try {
-            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtDtNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jLabel4.setText("Celular");
+        lblCelular.setText("Celular");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtCelular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtCelularActionPerformed(evt);
             }
         });
 
@@ -279,7 +304,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
         jLabel15.setText("Sexo");
 
-        buttonGroup1.add(jRadioButton1);
+        grpSexo.add(jRadioButton1);
         jRadioButton1.setText("Masculino");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,13 +312,13 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             }
         });
 
-        buttonGroup1.add(jRadioButton2);
+        grpSexo.add(jRadioButton2);
         jRadioButton2.setText("Feminino");
 
-        buttonGroup1.add(jRadioButton3);
+        grpSexo.add(jRadioButton3);
         jRadioButton3.setText("Outros");
 
-        jLabel16.setText("E-mail");
+        lblEmail.setText("E-mail");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/add.png"))); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -322,26 +347,26 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                     .addComponent(jButton2))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel1))
+                    .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDtNasc)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEmail)
+                    .addComponent(lblNome))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCelular)
+                    .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblCPF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lupa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -353,16 +378,16 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
+                            .addComponent(lblCPF)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lupa))
                         .addGap(19, 19, 19)
-                        .addComponent(jLabel4)
+                        .addComponent(lblCelular)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -372,7 +397,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -380,15 +405,15 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblDtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel16)
+                                .addComponent(lblEmail)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -422,17 +447,17 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtCelularActionPerformed
 
-    private void EsporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EsporteActionPerformed
+    private void cmbEsporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEsporteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_EsporteActionPerformed
+    }//GEN-LAST:event_cmbEsporteActionPerformed
 
-    private void NacionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NacionalidadeActionPerformed
+    private void cmbNacionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNacionalidadeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NacionalidadeActionPerformed
+    }//GEN-LAST:event_cmbNacionalidadeActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
@@ -456,17 +481,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
     private void lupaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lupaActionPerformed
         // Pegar o atleta pesquisado e inserir nos campos.
-        atlSelecionado = GerenciadorInterfaceGrafica.getMyInstance().abrirPesqCliente();
-        
-        if ( atlSelecionado != null ) {
-            try {
-                preencherCampos(atlSelecionado);
-                habilitarBotoes();
-            } catch (ParseException ex) {
-                JOptionPane.showMessageDialog(this, ex, "Preencher dados do cliente", JOptionPane.ERROR_MESSAGE);
-            }
-        }        
-        
+        atlSelecionado = GerenciadorInterfaceGrafica.getMyInstance().abrirPesqAtleta();     
         
     }//GEN-LAST:event_lupaActionPerformed
 
@@ -474,72 +489,149 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    
+    private void btnAlterarbtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarbtnNovoActionPerformed
+        
+    }//GEN-LAST:event_btnAlterarbtnNovoActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        String nome = txtnome.getText();
+        String cpf = txtCPF.getText();        
+        char sexo = (char) grpSexo.getSelection().getMnemonic();
+        String celular = txtCelular.getText();
+        Date nascimento = FuncoesUteis.converterStringParaDate(txtDtNascimento.getText(), formatoData); 
+        String email = txtEmail.getText();
+        Esporte esporte = (Esporte) cmbEsporte.getSelectedItem();
+        String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
+        String sobre = paneSobre.getText();
+        int ouro = (int) SpinnerMedalhaOuro.getValue();
+        int prata = (int) SpinnerMedalhaPrata.getValue();
+        int bronze = (int) SpinnerMedalhaBronze.getValue();
+        
+        if ( validarCampos() ) {
+            // INSERIR NO BANCO
+            try {
+                
+                if ( atlSelecionado == null ) {
+                    // INSERIR
+                    int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirAtleta(nome, cpf, celular, email, sobre, nacionalidade, 
+                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento);
+
+                    JOptionPane.showMessageDialog(this, "Atleta " + id + " inserido com sucesso." );
+                    limparCampos();
+                } else {
+                    // ALTERAR
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarAtleta(nome, cpf, celular, email, sobre, nacionalidade, 
+                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento);
+
+                    JOptionPane.showMessageDialog(this, "Atleta alterado com sucesso." );
+                    
+                }
+                
+                
+                
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex, "ERRO Atleta", JOptionPane.ERROR_MESSAGE  );
+            }
+            
+        
+        }
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void limparCampos() {
+            atlSelecionado = null;
+            txtnome.setText( "" );
+            txtCPF.setText( "" );
+            txtDtNascimento.setText( "" );
+            txtCelular.setText( "");
+            txtEmail.setText( "" );
+            lblFoto.setIcon(icone);
+            lblFoto.setIcon(null);
+            cmbEsporte.setSelectedIndex(0);
+            cmbNacionalidade.setSelectedIndex(0);
+            SpinnerMedalhaOuro.setValue(0);
+            SpinnerMedalhaPrata.setValue(0);
+            SpinnerMedalhaBronze.setValue(0);
+    }
     
     private boolean validarCampos() {
         
         String msgErro = "";
-        
-        lblNome.setForeground(Color.black); 
-        lblCEP.setForeground(Color.black);
-        lblCpf.setForeground(Color.black);
-        lblNum.setForeground(Color.black);
-        lblDtNasc.setForeground(Color.black);
-                
-        if ( txtNome.getText().trim().isEmpty() ) {
-            msgErro = msgErro + "Digite seu nome.\n";
-            lblNome.setForeground(Color.red);            
-        }
-              
-        if ( txtCEP.getText().replace("-", "").trim().isEmpty() ) {
-            msgErro = msgErro + "Digite seu CEP.\n";
-            lblCEP.setForeground(Color.red);            
-        }
-        
-        if ( FuncoesUteis.isCPF( txtCpf.getText() ) == false  ) {
-            msgErro = msgErro + "CPF inválido.\n";
-            lblCpf.setForeground(Color.red); 
-        }
-        try {
-            int num = Integer.parseInt(txtNum.getText() );
-        }
-        catch (NumberFormatException erro) {
-            msgErro = msgErro + "Número inválido.\n";
-            lblNum.setForeground(Color.red); 
-        }
-        catch (Exception erro) {
-            msgErro = msgErro + erro.getMessage() + "\n";
-            lblNum.setForeground(Color.red); 
-        }             
 
-        if ( dtNasc.getDate() == null ) {
-            msgErro = msgErro + "Data inválida.\n";
-            lblDtNasc.setForeground(Color.red); 
-        } else {
-                
-            try {
-                dtNasc.getDate().toString();
-            }
-            catch (Exception erro) {
-                msgErro = msgErro + erro.getMessage() + "\n";
-                lblNum.setForeground(Color.red); 
-            }
-        }
-     
-        // COLOCAR VALIDAÇÃO DOS OUTROS CAMPOS
+       // Resetar cores dos labels
+       lblNome.setForeground(Color.black);
+       lblCPF.setForeground(Color.black);
+       lblDtNasc.setForeground(Color.black);
+       lblCelular.setForeground(Color.black);
+       lblEmail.setForeground(Color.black);
+       lblEsporte.setForeground(Color.black);
+       lblNacionalidade.setForeground(Color.black);
+
+       // Validar nome
+       if (txtnome.getText().trim().isEmpty()) {
+           msgErro += "Digite o nome.\n";
+           lblNome.setForeground(Color.red);
+       }
+
+       // Validar CPF
+       if (!FuncoesUteis.isCPF(txtCPF.getText())) {
+           msgErro += "CPF inválido.\n";
+           lblCPF.setForeground(Color.red);
+       }
+
+       // Validar data de nascimento
+       if (txtDtNascimento.getText().trim().isEmpty()) {
+           msgErro += "Informe a data de nascimento.\n";
+           lblDtNasc.setForeground(Color.red);
+       } else {
+           Date nascimento = FuncoesUteis.converterStringParaDate(txtDtNascimento.getText(), "dd/MM/yyyy");
+           if (nascimento == null) {
+               msgErro += "Data de nascimento inválida.\n";
+               lblDtNasc.setForeground(Color.red);
+           }
+       }
+
+       // Validar celular
+       if (txtCelular.getText().trim().isEmpty()) {
+           msgErro += "Informe o número do celular.\n";
+           lblCelular.setForeground(Color.red);
+       }
+
+       // Validar e-mail
+       if (txtEmail.getText().trim().isEmpty()) {
+           msgErro += "Informe o e-mail.\n";
+           lblEmail.setForeground(Color.red);
+       }
+
+       // Validar esporte
+       if (cmbEsporte.getSelectedIndex() == 0) {
+           msgErro += "Selecione um esporte.\n";
+           lblEsporte.setForeground(Color.red);
+       }
+
+       // Validar nacionalidade
+       if (cmbNacionalidade.getSelectedIndex() == 0) {
+           msgErro += "Selecione a nacionalidade.\n";
+           lblNacionalidade.setForeground(Color.red);
+       }
+
+       // Validar foto (exemplo simples)
+       if (lblFoto.getIcon() == null) {
+           msgErro += "Adicione uma foto.\n";
+           lblFoto.setForeground(Color.red);
+       }
+
+       // Exibir mensagens de erro ou retornar verdadeiro
+       if (msgErro.isEmpty()) {
+           return true;
+       } else {
+           JOptionPane.showMessageDialog(this, msgErro, "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+           return false;
+       }
         
-        if ( msgErro.isEmpty() ) {
-            return true;
-        } else {            
-            JOptionPane.showMessageDialog(this, msgErro, "Cadastro de Cliente",  JOptionPane.ERROR_MESSAGE  );
-            return false;
-        }
-        
-    } 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Esporte;
-    private javax.swing.JComboBox<String> Nacionalidade;
     private javax.swing.JPanel PainelMedalhas;
     private javax.swing.JPanel PainelSobre;
     private javax.swing.JPanel PainelTitulo;
@@ -548,37 +640,40 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JSpinner SpinnerMedalhaOuro;
     private javax.swing.JSpinner SpinnerMedalhaPrata;
     private javax.swing.JButton btnAdicionar;
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cmbEsporte;
+    private javax.swing.JComboBox<String> cmbNacionalidade;
+    private javax.swing.ButtonGroup grpSexo;
     private javax.swing.JLabel iconMedalhaBronze;
     private javax.swing.JLabel iconMedalhaOuro;
     private javax.swing.JLabel iconMedalhaPrata;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JLabel lblCPF;
+    private javax.swing.JLabel lblCelular;
+    private javax.swing.JLabel lblDtNasc;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblEsporte;
     private javax.swing.JLabel lblFoto;
+    private javax.swing.JLabel lblNacionalidade;
+    private javax.swing.JLabel lblNome;
     private javax.swing.JButton lupa;
-    private javax.swing.JLabel txtEsporte;
+    private javax.swing.JTextPane paneSobre;
+    private javax.swing.JFormattedTextField txtCPF;
+    private javax.swing.JTextField txtCelular;
+    private javax.swing.JFormattedTextField txtDtNascimento;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JLabel txtMedalhas;
-    private javax.swing.JLabel txtNacionalidade;
     private javax.swing.JLabel txtSobre;
     private javax.swing.JLabel txtTitulo;
+    private javax.swing.JTextField txtnome;
     // End of variables declaration//GEN-END:variables
 }

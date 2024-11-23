@@ -10,13 +10,11 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
-import view.DlgBuscar;
 import view.DlgGerAtleta;
 import view.DlgCadEsporte;
 import view.DlgCadTorneio;
 import view.DlgConfiguracoes;
 import view.DlgListarCadastros;
-import view.DlgPesqAtleta;
 import view.DlgResultado;
 import view.DlgTimes;
 import view.FrmPrincipal;
@@ -50,6 +48,10 @@ public class GerenciadorInterfaceGrafica {
         }
     }
 
+    public GerenciadorDominio getGerDom() {
+        return gerDom;
+    }
+
     public static GerenciadorInterfaceGrafica getMyInstance() {
         return myInstance;
     }
@@ -65,7 +67,7 @@ public class GerenciadorInterfaceGrafica {
             try {
                 dlg = (JDialog) classe.getConstructor(Frame.class, boolean.class).newInstance(parent,true);                
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                JOptionPane.showMessageDialog(parent, "Erro ao abrir a janela " + classe.getName() + ". " + ex.getMessage() );
+                JOptionPane.showMessageDialog(parent, "Erro ao abrir a janela " + classe.getName() + ". " + ex );
             } 
         }       
         dlg.setVisible(true); 
@@ -108,7 +110,7 @@ public class GerenciadorInterfaceGrafica {
     }
     
     public Atleta abrirPesqAtleta() {
-        pesqAtl = (DlgPesqAtleta) abrirJanela(princ, pesqAtl, DlgPesqAtleta.class );
-        return pesqAtl.getCliSelecionado();
+        listCad = (DlgListarCadastros) abrirJanela(princ, listCad, DlgListarCadastros.class );
+        return listCad.getAtlSelecionado();
     }
 }

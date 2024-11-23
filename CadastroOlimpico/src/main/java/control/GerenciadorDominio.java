@@ -47,9 +47,9 @@ public class GerenciadorDominio {
     
     // ###############################
     
-    public int inserirAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto) throws HibernateException  {
+    public int inserirAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento) throws HibernateException  {
 
-        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, foto);
+        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento);
                 
         atlDAO.inserir(atl);
         
@@ -57,9 +57,9 @@ public class GerenciadorDominio {
         
     }
     
-    public void alterarAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto) throws HibernateException  {
+    public void alterarAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento) throws HibernateException  {
 
-        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, foto);
+        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento);
         
         atlDAO.alterar(atl);            
 
@@ -81,5 +81,9 @@ public class GerenciadorDominio {
         
         espDAO.alterar(esp);            
 
+    }
+    
+    public List<Atleta> pesquisarAtleta(String pesq) throws HibernateException {
+        return atlDAO.pesquisarPorNome(pesq);
     }
 }
