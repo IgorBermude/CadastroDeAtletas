@@ -49,6 +49,9 @@ public class Time implements Serializable{
     )
     private List<TorneioColetivo> torneios;
 
+    public Time() {
+    }
+
     public Time(String nome, String nacionalidade, List<Atleta> atletas, EsporteColetivo esporteColetivo, List<TorneioColetivo> torneios) {
         this.nome = nome;
         this.nacionalidade = nacionalidade;

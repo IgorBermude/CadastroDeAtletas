@@ -26,26 +26,29 @@ public class AtletaTableModel extends AbstractTableModel{
     
     @Override
     public int getColumnCount(){
-        return 1;
+        return 5;
     }
     
-    /*@Override
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex){
-        try{
-            Atleta item = listaAtletas.get(rowIndex);
+        Atleta item = listaItens.get(rowIndex);
+        
+        switch (columnIndex) {
+            case 0: return item.getNome();
+            case 1: return item.getEsportes().toString();
+            case 2: return item.getOuro();
+            case 3: return item.getPrata();
+            case 4: return item.getBronze();
+            default: return null;
         }
     }
     
     @Override
     public String getColumnName(int column){
-        String nomeColunas[] = "Atleta", "Esporte", "Rank", "Ouro", "Prata", "Bronze";
-    }*/
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String nomeColunas[] = {"Atleta", "Esporte", "Ouro", "Prata", "Bronze"};
+        return nomeColunas[column]; 
     }
-    
+
     public void setLista(List<Atleta> novaLista) {
         
         if ( novaLista == null || novaLista.isEmpty()) {

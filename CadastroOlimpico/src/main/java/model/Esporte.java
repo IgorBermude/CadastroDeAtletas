@@ -39,12 +39,23 @@ public class Esporte implements Serializable {
     
     @ManyToMany(mappedBy = "esportes")
     private List<Atleta> atletas;
+    
+    @Column (name = "tipoesporte", nullable = false, length = 20 )
+    private String tipo;
 
-    public Esporte(byte[] foto, String nome, String descricao, List<Atleta> atletas) {
+    public Esporte(byte[] foto, String nome, String descricao, List<Atleta> atletas, String tipo) {
         this.foto = foto;
         this.nome = nome;
         this.descricao = descricao;
         this.atletas = atletas;
+        this.tipo = tipo;
+    }
+    
+    public Esporte(byte[] foto, String nome, String descricao, String tipo) {
+        this.foto = foto;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.tipo = tipo;
     }
 
     public void setFoto(byte[] foto) {
@@ -53,6 +64,9 @@ public class Esporte implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Esporte() {
     }
 
     public void setDescricao(String descricao) {
@@ -81,6 +95,14 @@ public class Esporte implements Serializable {
 
     public int getIdEsporte() {
         return idEsporte;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     

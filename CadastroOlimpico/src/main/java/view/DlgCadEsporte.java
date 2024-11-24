@@ -4,10 +4,18 @@
  */
 package view;
 
+import Model.Atleta;
+import Model.Esporte;
 import control.FuncoesUteis;
+import control.GerenciadorInterfaceGrafica;
+import java.awt.Color;
 import java.io.File;
+import java.util.Date;
+import java.util.List;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -16,12 +24,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class DlgCadEsporte extends javax.swing.JDialog {
 
+    private Esporte espSelecionado;
+    
+    Icon icone;
+    
     /**
      * Creates new form DlgCadCompeticao
      */
     public DlgCadEsporte(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        icone = lblFoto.getIcon();
     }
 
     /**
@@ -33,24 +46,22 @@ public class DlgCadEsporte extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jRadioButton7 = new javax.swing.JRadioButton();
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        grptipo = new javax.swing.ButtonGroup();
         txtTitulo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblFoto = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        nome = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        txtnome = new javax.swing.JLabel();
+        lblnome = new javax.swing.JTextField();
+        txttipo = new javax.swing.JLabel();
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         ScrollPaneSobre = new javax.swing.JScrollPane();
-        descricao = new javax.swing.JTextPane();
+        lbldescricao = new javax.swing.JTextPane();
         btnAdicionar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-
-        jRadioButton7.setText("jRadioButton7");
+        btnAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Esportes");
@@ -72,11 +83,11 @@ public class DlgCadEsporte extends javax.swing.JDialog {
             }
         });
 
-        jLabel5.setText("Nome");
+        txtnome.setText("Nome");
 
-        jLabel6.setText("Tipo");
+        txttipo.setText("Tipo");
 
-        buttonGroup1.add(jRadioButton4);
+        grptipo.add(jRadioButton4);
         jRadioButton4.setText("Individual");
         jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,7 +95,7 @@ public class DlgCadEsporte extends javax.swing.JDialog {
             }
         });
 
-        buttonGroup1.add(jRadioButton5);
+        grptipo.add(jRadioButton5);
         jRadioButton5.setText("Coletivo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -101,12 +112,12 @@ public class DlgCadEsporte extends javax.swing.JDialog {
                         .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtnome)
+                            .addComponent(lblnome, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton4)
-                            .addComponent(jLabel6)
+                            .addComponent(txttipo)
                             .addComponent(jRadioButton5))
                         .addGap(62, 62, 62))))
         );
@@ -119,13 +130,13 @@ public class DlgCadEsporte extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                                .addComponent(txttipo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jRadioButton4))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                .addComponent(txtnome)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lblnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -135,7 +146,7 @@ public class DlgCadEsporte extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Descrição"));
 
-        ScrollPaneSobre.setViewportView(descricao);
+        ScrollPaneSobre.setViewportView(lbldescricao);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -159,13 +170,27 @@ public class DlgCadEsporte extends javax.swing.JDialog {
         );
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/add.png"))); // NOI18N
-        btnAdicionar.setText("Adicionar Atleta");
+        btnAdicionar.setText("Adicionar Esporte");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/remove.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/repeat.png"))); // NOI18N
+        btnAlterar.setMnemonic('A');
+        btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarbtnAdicionarActionPerformed(evt);
             }
         });
 
@@ -183,6 +208,8 @@ public class DlgCadEsporte extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAlterar)
+                        .addGap(92, 92, 92)
                         .addComponent(btnAdicionar)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +227,8 @@ public class DlgCadEsporte extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
-                    .addComponent(btnCancelar)))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnAlterar)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(33, 33, 33)
@@ -235,24 +263,116 @@ public class DlgCadEsporte extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        String nome = lblnome.getText();
+        String descricao = lbldescricao.getText();
+        String tipo;
+        if (jRadioButton4.isSelected()) {
+            tipo = "Individual";
+        } else if (jRadioButton5.isSelected()) {
+            tipo = "Coletivo";
+        } else {
+            tipo = null; // Ou trate como erro
+        }
+
+        if ( validarCampos() ) {
+            // INSERIR NO BANCO
+            try {
+
+                if ( espSelecionado == null ) {
+                    // INSERIR
+                    int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirEsporte(lblFoto.getIcon(),nome, descricao, tipo);
+
+                    JOptionPane.showMessageDialog(this, "Esporte " + id + " inserido com sucesso." );
+                    limparCampos();
+                } else {
+                    // ALTERAR
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarEsporte(lblFoto.getIcon(),nome, descricao, tipo);
+
+                    JOptionPane.showMessageDialog(this, "Esporte alterado com sucesso." );
+
+                }
+
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex, "ERRO Esporte", JOptionPane.ERROR_MESSAGE  );
+            }
+
+        }
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private boolean validarCampos() {
+        String msgErro = "";
+
+        // Resetar cores dos labels
+        txtnome.setForeground(Color.black);
+        txttipo.setForeground(Color.red);
+
+        // Validar nome
+        if (lblnome.getText().trim().isEmpty()) {
+            msgErro += "Digite o nome do esporte.\n";
+            txtnome.setForeground(Color.red);
+        }
+
+        // Validar descrição
+        if (lbldescricao.getText().trim().isEmpty()) {
+            msgErro += "Digite a descrição do esporte.\n";
+            lbldescricao.setForeground(Color.red);
+        }
+
+        // Validar tipo
+        if (grptipo.getSelection() == null) {
+            msgErro += "Selecione o tipo do esporte.\n";
+            txttipo.setForeground(Color.red);
+        }
+
+        // Validar foto
+        if (lblFoto.getIcon() == null) {
+            msgErro += "Adicione uma foto ao esporte.\n";
+            lblFoto.setForeground(Color.red);
+        }
+
+        // Exibir mensagens de erro ou retornar verdadeiro
+        if (msgErro.isEmpty()) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(this, msgErro, "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    private void limparCampos() {
+        espSelecionado = null; // Resetar a referência ao esporte selecionado (se aplicável)
+        lblnome.setText(""); // Limpar o campo de nome
+        lbldescricao.setText(""); // Limpar o campo de descrição
+        lblFoto.setIcon(icone); // Remover a foto do label
+        grptipo.clearSelection(); // Resetar a seleção do grupo de botões de tipo
+    }
+
+
+    
+    private void btnAlterarbtnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarbtnAdicionarActionPerformed
+    
+    }//GEN-LAST:event_btnAlterarbtnAdicionarActionPerformed
+
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollPaneSobre;
     private javax.swing.JButton btnAdicionar;
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextPane descricao;
+    private javax.swing.ButtonGroup grptipo;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton7;
     private javax.swing.JLabel lblFoto;
-    private javax.swing.JTextField nome;
+    private javax.swing.JTextPane lbldescricao;
+    private javax.swing.JTextField lblnome;
     private javax.swing.JLabel txtTitulo;
+    private javax.swing.JLabel txtnome;
+    private javax.swing.JLabel txttipo;
     // End of variables declaration//GEN-END:variables
 }

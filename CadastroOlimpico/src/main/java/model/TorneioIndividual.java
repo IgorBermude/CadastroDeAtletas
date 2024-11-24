@@ -57,6 +57,9 @@ public class TorneioIndividual implements Serializable{
     @Column(name = "pontuacao")
     private Map<Atleta, Integer> Resultado;
 
+    public TorneioIndividual() {
+    }
+
     public TorneioIndividual(EsporteIndividual esporteIndividual, Date data, String local, List<Atleta> atletas, Map<Atleta, Integer> Resultado) {
         this.esporteIndividual = esporteIndividual;
         this.data = data;

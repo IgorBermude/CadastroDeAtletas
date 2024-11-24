@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -209,7 +210,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         btnAlterar.setText("Alterar");
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarbtnNovoActionPerformed(evt);
+                btnAdicionarActionPerformed(evt);
             }
         });
 
@@ -489,18 +490,23 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnAlterarbtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarbtnNovoActionPerformed
-        
-    }//GEN-LAST:event_btnAlterarbtnNovoActionPerformed
-
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         String nome = txtnome.getText();
         String cpf = txtCPF.getText();        
-        char sexo = (char) grpSexo.getSelection().getMnemonic();
+        String sexo;
+        if (jRadioButton1.isSelected()) {
+            sexo = "Masculino";
+        } else if (jRadioButton2.isSelected()) {
+            sexo = "Feminino";
+        } else if (jRadioButton3.isSelected()) {
+            sexo = "Outros"; 
+        } else {
+            sexo = null; // Ou trate como erro
+        }
         String celular = txtCelular.getText();
         Date nascimento = FuncoesUteis.converterStringParaDate(txtDtNascimento.getText(), formatoData); 
         String email = txtEmail.getText();
-        Esporte esporte = (Esporte) cmbEsporte.getSelectedItem();
+        List<Esporte> esporte = (List<Esporte>) cmbEsporte.getSelectedItem();
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
         String sobre = paneSobre.getText();
         int ouro = (int) SpinnerMedalhaOuro.getValue();
@@ -513,15 +519,15 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                 
                 if ( atlSelecionado == null ) {
                     // INSERIR
-                    int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirAtleta(nome, cpf, celular, email, sobre, nacionalidade, 
-                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento);
+                    int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirAtleta(nome, cpf, celular, email, sexo,nacionalidade,
+                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esporte);
 
                     JOptionPane.showMessageDialog(this, "Atleta " + id + " inserido com sucesso." );
                     limparCampos();
                 } else {
                     // ALTERAR
-                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarAtleta(nome, cpf, celular, email, sobre, nacionalidade, 
-                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento);
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarAtleta(nome, cpf, celular, email, sexo,nacionalidade, 
+                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esporte);
 
                     JOptionPane.showMessageDialog(this, "Atleta alterado com sucesso." );
                     

@@ -31,6 +31,7 @@ public class GerenciadorDominio {
         
         genDAO = new GenericDAO();
         atlDAO = new AtletaDAO();
+        espDAO = new EsporteDAO();
     }
     
     // ######################    
@@ -47,9 +48,9 @@ public class GerenciadorDominio {
     
     // ###############################
     
-    public int inserirAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento) throws HibernateException  {
+    public int inserirAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento, List<Esporte> esportes) throws HibernateException  {
 
-        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento);
+        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento, esportes);
                 
         atlDAO.inserir(atl);
         
@@ -57,17 +58,17 @@ public class GerenciadorDominio {
         
     }
     
-    public void alterarAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento) throws HibernateException  {
+    public void alterarAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento, List<Esporte> esportes) throws HibernateException  {
 
-        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento);
+        Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento, esportes);
         
         atlDAO.alterar(atl);            
 
     }
     
-    public int inserirEsporte(byte[] foto, String nome, String descricao, List<Atleta> atletas) throws HibernateException  {
+    public int inserirEsporte(Icon foto, String nome, String descricao, String tipo) throws HibernateException  {
 
-        Esporte esp = new Esporte( foto, nome, descricao, atletas);
+        Esporte esp = new Esporte( FuncoesUteis.IconToBytes(foto), nome, descricao, tipo);
                 
         espDAO.inserir(esp);
         
@@ -75,9 +76,9 @@ public class GerenciadorDominio {
         
     }
     
-    public void alterarEsporte(byte[] foto, String nome, String descricao, List<Atleta> atletas) throws HibernateException  {
+    public void alterarEsporte(Icon foto, String nome, String descricao, String tipo) throws HibernateException  {
 
-        Esporte esp = new Esporte( foto, nome, descricao, atletas);
+        Esporte esp = new Esporte( FuncoesUteis.IconToBytes(foto), nome, descricao, tipo);
         
         espDAO.alterar(esp);            
 

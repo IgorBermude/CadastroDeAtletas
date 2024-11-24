@@ -82,7 +82,12 @@ public class Atleta implements Serializable {
     @JoinColumn(name = "time_id")
     private Time time;
 
-    public Atleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto, Date nascimento) {
+    public Atleta() {
+    }
+
+    
+    
+    public Atleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto, Date nascimento, List<Esporte> esportes) {
         this.nome = nome;
         this.cpf = cpf;
         this.celular = celular;
@@ -95,6 +100,7 @@ public class Atleta implements Serializable {
         this.bronze = bronze;
         this.foto = foto;
         this.nascimento = nascimento;
+        this.esportes = esportes;
     }
 
     public String getNome() {

@@ -25,8 +25,11 @@ public class EsporteIndividual extends Esporte implements Serializable{
     @OneToMany(mappedBy = "esporteIndividual")
     private List<TorneioIndividual> torneios;
 
-    public EsporteIndividual(List<TorneioIndividual> torneios, byte[] foto, String nome, String descricao, List<Atleta> atletas) {
-        super(foto, nome, descricao, atletas);
+    public EsporteIndividual() {
+    }
+
+    public EsporteIndividual(List<TorneioIndividual> torneios, byte[] foto, String nome, String descricao, List<Atleta> atletas, String tipo) {
+        super(foto, nome, descricao, atletas, tipo);
         this.torneios = torneios;
     }
 

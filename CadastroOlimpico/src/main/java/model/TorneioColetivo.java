@@ -57,6 +57,9 @@ public class TorneioColetivo implements Serializable{
     @Column(name = "pontuacao")
     private Map<Time, Integer> Resultado;
 
+    public TorneioColetivo() {
+    }
+
     
     public TorneioColetivo(EsporteColetivo esporteColetivo, Date data, String local, List<Time> times, Map<Time, Integer> Resultado) {
         this.esporteColetivo = esporteColetivo;
