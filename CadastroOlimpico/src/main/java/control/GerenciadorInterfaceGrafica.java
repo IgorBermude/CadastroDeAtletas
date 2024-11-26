@@ -7,6 +7,9 @@ package control;
 import Model.Atleta;
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
@@ -73,6 +76,17 @@ public class GerenciadorInterfaceGrafica {
         dlg.setVisible(true); 
         
         return dlg;
+    }
+    
+    public void carregarCombo( JComboBox combo, Class classe) {
+        
+        try {
+            List lista = gerDom.listar(classe);
+            combo.setModel(  new DefaultComboBoxModel( lista.toArray()  ) ); 
+        } catch (HibernateException ex) {
+            JOptionPane.showMessageDialog(princ, ex, "ERRO ao carregar combobox.", JOptionPane.ERROR_MESSAGE  );
+        } 
+        
     }
     
     //Metodos para abrir as janelas:

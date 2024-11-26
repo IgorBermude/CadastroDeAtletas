@@ -14,10 +14,7 @@ import javax.swing.table.AbstractTableModel;
  * @author 2022122760265
  */
 public class AtletaTableModel extends AbstractTableModel{
-    private ArrayList<Atleta> listaAtletas = new ArrayList();
-    
-    // Lista de OBJETOS
-    private List<Atleta> listaItens = new ArrayList();
+    private List<Atleta> listaAtletas = new ArrayList();
     
     @Override
     public int getRowCount(){
@@ -31,7 +28,7 @@ public class AtletaTableModel extends AbstractTableModel{
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex){
-        Atleta item = listaItens.get(rowIndex);
+        Atleta item = listaAtletas.get(rowIndex);
         
         switch (columnIndex) {
             case 0: return item.getNome();
@@ -52,23 +49,23 @@ public class AtletaTableModel extends AbstractTableModel{
     public void setLista(List<Atleta> novaLista) {
         
         if ( novaLista == null || novaLista.isEmpty()) {
-            if ( !listaItens.isEmpty() ) {
-                listaItens.clear();
+            if ( !listaAtletas.isEmpty() ) {
+                listaAtletas.clear();
                 fireTableRowsDeleted(0,0);
             }
+            System.out.println("Lista vazia");
         } else {
-            listaItens = novaLista;
-            fireTableRowsInserted( 0, listaItens.size() - 1);
-        }
-                
+            listaAtletas = novaLista;
+            fireTableRowsInserted( 0, listaAtletas.size() - 1);
+        }    
     }
     
     public Atleta getAtleta(int linha) {
-        return listaItens.get(linha);
+        return listaAtletas.get(linha);
     }
     
      public void remover (int indice) {        
-        listaItens.remove(indice);
+        listaAtletas.remove(indice);
         fireTableRowsDeleted( indice, indice );   
     }
 }

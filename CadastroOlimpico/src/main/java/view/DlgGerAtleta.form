@@ -167,6 +167,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="componentShown" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="cmbEsporteComponentShown"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbEsporteActionPerformed"/>
           </Events>
           <AuxValues>

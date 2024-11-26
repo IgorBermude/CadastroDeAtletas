@@ -11,6 +11,7 @@ import control.GerenciadorInterfaceGrafica;
 import java.awt.Color;
 import java.io.File;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.Icon;
@@ -37,6 +38,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         icone = lblFoto.getIcon();
+        GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
     }
 
     /**
@@ -109,6 +111,11 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         PainelTitulo.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, 530, -1));
 
         cmbEsporte.setMaximumRowCount(5);
+        cmbEsporte.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                cmbEsporteComponentShown(evt);
+            }
+        });
         cmbEsporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbEsporteActionPerformed(evt);
@@ -506,7 +513,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         String celular = txtCelular.getText();
         Date nascimento = FuncoesUteis.converterStringParaDate(txtDtNascimento.getText(), formatoData); 
         String email = txtEmail.getText();
-        List<Esporte> esporte = (List<Esporte>) cmbEsporte.getSelectedItem();
+        List<Esporte> esporte = new ArrayList<>();
+        Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
+        esporte.add(esporteSelecionado);
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
         String sobre = paneSobre.getText();
         int ouro = (int) SpinnerMedalhaOuro.getValue();
@@ -544,6 +553,12 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    private void cmbEsporteComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cmbEsporteComponentShown
+        GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
+    }//GEN-LAST:event_cmbEsporteComponentShown
+                               
+
+    
     private void limparCampos() {
             atlSelecionado = null;
             txtnome.setText( "" );
@@ -570,8 +585,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
        lblDtNasc.setForeground(Color.black);
        lblCelular.setForeground(Color.black);
        lblEmail.setForeground(Color.black);
-       lblEsporte.setForeground(Color.black);
-       lblNacionalidade.setForeground(Color.black);
 
        // Validar nome
        if (txtnome.getText().trim().isEmpty()) {
@@ -607,18 +620,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
        if (txtEmail.getText().trim().isEmpty()) {
            msgErro += "Informe o e-mail.\n";
            lblEmail.setForeground(Color.red);
-       }
-
-       // Validar esporte
-       if (cmbEsporte.getSelectedIndex() == 0) {
-           msgErro += "Selecione um esporte.\n";
-           lblEsporte.setForeground(Color.red);
-       }
-
-       // Validar nacionalidade
-       if (cmbNacionalidade.getSelectedIndex() == 0) {
-           msgErro += "Selecione a nacionalidade.\n";
-           lblNacionalidade.setForeground(Color.red);
        }
 
        // Validar foto (exemplo simples)

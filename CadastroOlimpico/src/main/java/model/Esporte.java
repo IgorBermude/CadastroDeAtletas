@@ -105,5 +105,9 @@ public class Esporte implements Serializable {
         this.tipo = tipo;
     }
 
+    @Override
+    public String toString() {
+        return nome;
+    }
     
 }
