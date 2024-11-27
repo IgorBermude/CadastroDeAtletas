@@ -53,5 +53,5 @@ public class AtletaDAO extends GenericDAO{
     
     public List<Atleta> pesquisarPorMes(String pesq)  {
         return pesquisar(pesq, 3);
-    }
+    } 
 }

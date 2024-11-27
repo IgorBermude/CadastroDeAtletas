@@ -41,14 +41,14 @@ public class GerenciadorDominio {
     public List listar(Class classe) throws HibernateException {
         return genDAO.listar( classe);
     }
-    
+
     public void excluir(Object obj) throws HibernateException {
         genDAO.excluir(obj);            
     }
     
     // ###############################
     
-    public int inserirAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento, List<Esporte> esportes) throws HibernateException  {
+    public int inserirAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, String nascimento, List<Esporte> esportes) throws HibernateException  {
 
         Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento, esportes);
                 
@@ -58,7 +58,7 @@ public class GerenciadorDominio {
         
     }
     
-    public void alterarAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, Date nascimento, List<Esporte> esportes) throws HibernateException  {
+    public void alterarAtleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, Icon foto, String nascimento, List<Esporte> esportes) throws HibernateException  {
 
         Atleta atl = new Atleta( nome, cpf, celular, email, sexo, nacionalidae, sobre, ouro, prata, bronze, FuncoesUteis.IconToBytes(foto), nascimento, esportes);
         

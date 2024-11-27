@@ -38,7 +38,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         icone = lblFoto.getIcon();
-        GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
+        GerenciadorInterfaceGrafica.getMyInstance().carregarList(listEsporte, Esporte.class);
     }
 
     /**
@@ -56,13 +56,14 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         PainelTitulo = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JLabel();
         PainelSobre = new javax.swing.JPanel();
-        cmbEsporte = new javax.swing.JComboBox<>();
         lblEsporte = new javax.swing.JLabel();
         ScrollPaneSobre = new javax.swing.JScrollPane();
         paneSobre = new javax.swing.JTextPane();
         cmbNacionalidade = new javax.swing.JComboBox<>();
         lblNacionalidade = new javax.swing.JLabel();
         txtSobre = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listEsporte = new javax.swing.JList<>();
         PainelMedalhas = new javax.swing.JPanel();
         txtMedalhas = new javax.swing.JLabel();
         iconMedalhaBronze = new javax.swing.JLabel();
@@ -110,18 +111,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         txtTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         PainelTitulo.add(txtTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, 530, -1));
 
-        cmbEsporte.setMaximumRowCount(5);
-        cmbEsporte.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                cmbEsporteComponentShown(evt);
-            }
-        });
-        cmbEsporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbEsporteActionPerformed(evt);
-            }
-        });
-
         lblEsporte.setText("Esporte");
 
         ScrollPaneSobre.setViewportView(paneSobre);
@@ -137,6 +126,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         lblNacionalidade.setText("Nacionalidade");
 
         txtSobre.setText("Sobre o Atleta");
+
+        jScrollPane1.setViewportView(listEsporte);
 
         javax.swing.GroupLayout PainelSobreLayout = new javax.swing.GroupLayout(PainelSobre);
         PainelSobre.setLayout(PainelSobreLayout);
@@ -154,12 +145,12 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                             .addGroup(PainelSobreLayout.createSequentialGroup()
                                 .addComponent(lblEsporte)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblNacionalidade)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 171, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         PainelSobreLayout.setVerticalGroup(
@@ -170,10 +161,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                     .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblNacionalidade))
-                    .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblEsporte)))
-                .addGap(18, 18, 18)
+                    .addComponent(lblEsporte)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtSobre)
                 .addGap(1, 1, 1)
                 .addComponent(ScrollPaneSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -307,7 +297,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             }
         });
 
-        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/128x128/user.png"))); // NOI18N
         lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel15.setText("Sexo");
@@ -351,9 +340,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblFoto)
+                    .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addGap(37, 37, 37)
+                .addGap(65, 65, 65)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDtNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -361,7 +350,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblEmail)
                     .addComponent(lblNome))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblCelular)
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -409,10 +398,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblFoto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblDtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,7 +406,11 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblEmail)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -449,7 +438,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                 .addComponent(PainelSobre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PainelMedalhas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(1, 1, 1))
         );
 
         pack();
@@ -458,10 +447,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private void txtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelularActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCelularActionPerformed
-
-    private void cmbEsporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEsporteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbEsporteActionPerformed
 
     private void cmbNacionalidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNacionalidadeActionPerformed
         // TODO add your handling code here:
@@ -511,11 +496,10 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             sexo = null; // Ou trate como erro
         }
         String celular = txtCelular.getText();
-        Date nascimento = FuncoesUteis.converterStringParaDate(txtDtNascimento.getText(), formatoData); 
+        String nascimento = txtDtNascimento.getText();
         String email = txtEmail.getText();
         List<Esporte> esporte = new ArrayList<>();
-        Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
-        esporte.add(esporteSelecionado);
+        esporte.add(listEsporte.getSelectedValue());
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
         String sobre = paneSobre.getText();
         int ouro = (int) SpinnerMedalhaOuro.getValue();
@@ -552,12 +536,37 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
-
-    private void cmbEsporteComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cmbEsporteComponentShown
-        GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
-    }//GEN-LAST:event_cmbEsporteComponentShown
                                
-
+    private void preencherCampos(Atleta atl) throws ParseException {
+        /*if ( atl != null ) {
+            txtnome.setText( atl.getNome() );
+            txtCPF.setText( atl.getCpf() );
+            txtDtNascimento.setText( atl.getNascimento() );
+            txtCelular.setText( atl.getCelular());
+            txtEmail.setText( atl.getEmail() );
+            lblFoto.setIcon(FuncoesUteis.BytesToIcon(atl.getFoto()));
+            List<Esporte> listEsporte = atl.getEsportes();
+            cmbNacionalidade.setSelectedIndex(0);
+            SpinnerMedalhaOuro.setValue(0);
+            SpinnerMedalhaPrata.setValue(0);
+            SpinnerMedalhaBronze.setValue(0);
+            
+            if ( cli.getSexo() == 'M' ) {
+                rdbMasc.setSelected(true);
+            } else {
+                rdbFemin.setSelected(true);
+            }            
+            
+            if ( cli.getFoto() != null ) { 
+                ImageIcon imagem = new ImageIcon( cli.getFoto() );
+                mostrarFoto(imagem);
+            } else {
+                lblFoto.setText("Foto");
+                lblFoto.setIcon(null);
+            }
+        }
+        // habilitarBotoes();*/
+    }
     
     private void limparCampos() {
             atlSelecionado = null;
@@ -568,7 +577,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             txtEmail.setText( "" );
             lblFoto.setIcon(icone);
             lblFoto.setIcon(null);
-            cmbEsporte.setSelectedIndex(0);
+            listEsporte.setSelectedIndex(0);
             cmbNacionalidade.setSelectedIndex(0);
             SpinnerMedalhaOuro.setValue(0);
             SpinnerMedalhaPrata.setValue(0);
@@ -622,12 +631,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
            lblEmail.setForeground(Color.red);
        }
 
-       // Validar foto (exemplo simples)
-       if (lblFoto.getIcon() == null) {
-           msgErro += "Adicione uma foto.\n";
-           lblFoto.setForeground(Color.red);
-       }
-
        // Exibir mensagens de erro ou retornar verdadeiro
        if (msgErro.isEmpty()) {
            return true;
@@ -649,7 +652,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<String> cmbEsporte;
     private javax.swing.JComboBox<String> cmbNacionalidade;
     private javax.swing.ButtonGroup grpSexo;
     private javax.swing.JLabel iconMedalhaBronze;
@@ -664,6 +666,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCPF;
     private javax.swing.JLabel lblCelular;
     private javax.swing.JLabel lblDtNasc;
@@ -672,6 +675,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JLabel lblFoto;
     private javax.swing.JLabel lblNacionalidade;
     private javax.swing.JLabel lblNome;
+    private javax.swing.JList<String> listEsporte;
     private javax.swing.JButton lupa;
     private javax.swing.JTextPane paneSobre;
     private javax.swing.JFormattedTextField txtCPF;

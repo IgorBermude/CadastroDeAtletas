@@ -4,14 +4,25 @@
  */
 package view;
 
+import Model.Atleta;
 import Model.Esporte;
+import Model.TorneioColetivo;
+import Model.TorneioIndividual;
+import control.AtletaTableModel;
 import control.GerenciadorInterfaceGrafica;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author 2022122760265
  */
 public class DlgCadTorneio extends javax.swing.JDialog {
+
+    
+    private AtletaTableModel tableAtletaModel;
+    TorneioColetivo torneioColetivo;
+    TorneioIndividual torneioIndividual;
 
     /**
      * Creates new form DlgCadTorneio
@@ -21,7 +32,12 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         initComponents();
         pnlinscreveratletas.setVisible(false);
         pnlcadastrartimes.setVisible(false);
+        pnlstatus.setVisible(false);
         GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
+        
+        //Associar a tableModel
+        tableAtletaModel = new AtletaTableModel();
+        tabelaInscritos.setModel( tableAtletaModel );
     }
 
     /**
@@ -36,15 +52,10 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         grptipo = new javax.swing.ButtonGroup();
         txtTitulo = new javax.swing.JLabel();
         pnlinscreveratletas = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelaInscritos = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         pnlcadastrartimes = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -59,9 +70,13 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         cmbEsporte = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jPanel2 = new javax.swing.JPanel();
+        radioIndividual = new javax.swing.JRadioButton();
+        radioColetivo = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtDt = new javax.swing.JFormattedTextField();
+        txtLocal = new javax.swing.JTextField();
+        pnlstatus = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -75,7 +90,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         txtTitulo.setText("Cadastro de Torneio");
         txtTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaInscritos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -91,42 +106,15 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-
-        jLabel1.setText("Todos Atletas");
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nome", "Nacionalidade", "Sexo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tabelaInscritos);
 
         jLabel5.setText("Atletas inscritos");
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/remove.png"))); // NOI18N
-        jButton3.setText("Remover Atletas");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jLabel5)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -138,43 +126,20 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/add.png"))); // NOI18N
-        jButton2.setText("Inscrever Atletas");
 
         javax.swing.GroupLayout pnlinscreveratletasLayout = new javax.swing.GroupLayout(pnlinscreveratletas);
         pnlinscreveratletas.setLayout(pnlinscreveratletasLayout);
         pnlinscreveratletasLayout.setHorizontalGroup(
             pnlinscreveratletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlinscreveratletasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlinscreveratletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-                    .addGroup(pnlinscreveratletasLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlinscreveratletasLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnlinscreveratletasLayout.setVerticalGroup(
             pnlinscreveratletasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlinscreveratletasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         pnlcadastrartimes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -268,24 +233,42 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 cmbEsporteComponentShown(evt);
             }
         });
-
-        jLabel4.setText("Tipo de torneio:");
-
-        grptipo.add(jRadioButton1);
-        jRadioButton1.setText("Individual");
-        jRadioButton1.setEnabled(false);
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        cmbEsporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                cmbEsporteActionPerformed(evt);
             }
         });
 
-        grptipo.add(jRadioButton2);
-        jRadioButton2.setText("Coletivo");
-        jRadioButton2.setEnabled(false);
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setText("Tipo de torneio:");
+
+        grptipo.add(radioIndividual);
+        radioIndividual.setText("Individual");
+        radioIndividual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                radioIndividualActionPerformed(evt);
+            }
+        });
+
+        grptipo.add(radioColetivo);
+        radioColetivo.setText("Coletivo");
+        radioColetivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioColetivoActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Local:");
+
+        jLabel9.setText("Data:");
+
+        try {
+            txtDt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtDt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDtActionPerformed(evt);
             }
         });
 
@@ -303,10 +286,20 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1)
+                        .addComponent(radioIndividual)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(radioColetivo)))
+                .addGap(63, 63, 63)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLocal)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,16 +307,20 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(radioIndividual)
+                    .addComponent(radioColetivo)
+                    .addComponent(jLabel9)
+                    .addComponent(txtDt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Status do torneio"));
+        pnlstatus.setBorder(javax.swing.BorderFactory.createTitledBorder("Status do torneio"));
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/remove.png"))); // NOI18N
         btnCancelar.setText("Cancelar Torneio");
@@ -348,11 +345,11 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlstatusLayout = new javax.swing.GroupLayout(pnlstatus);
+        pnlstatus.setLayout(pnlstatusLayout);
+        pnlstatusLayout.setHorizontalGroup(
+            pnlstatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlstatusLayout.createSequentialGroup()
                 .addComponent(btnCancelar)
                 .addGap(70, 70, 70)
                 .addComponent(jToggleButton1)
@@ -360,12 +357,12 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addComponent(jButton1))
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        pnlstatusLayout.setVerticalGroup(
+            pnlstatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlstatusLayout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlstatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(jButton1)
                     .addComponent(jToggleButton1)))
@@ -382,7 +379,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                     .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlcadastrartimes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlstatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -397,7 +394,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlcadastrartimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -416,15 +413,13 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         GerenciadorInterfaceGrafica.getMyInstance().abrirVerTimes();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        pnlcadastrartimes.setVisible(false);
-        pnlinscreveratletas.setVisible(true);
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void radioIndividualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioIndividualActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        pnlinscreveratletas.setVisible(false);
-        pnlcadastrartimes.setVisible(true);
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_radioIndividualActionPerformed
+
+    private void radioColetivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioColetivoActionPerformed
+
+    }//GEN-LAST:event_radioColetivoActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // Vai pegar todos os atletas da nacionalidade escolhida e que sejam do esporte e jogar em um time
@@ -434,14 +429,38 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
     }//GEN-LAST:event_cmbEsporteComponentShown
 
+    private void cmbEsporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEsporteActionPerformed
+        Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
+        
+        tableAtletaModel.setLista(esporteSelecionado.getAtletas());
+        
+        switch (esporteSelecionado.getTipo()) {
+            case "Individual" -> {
+                radioIndividual.setSelected(rootPaneCheckingEnabled);
+                pnlcadastrartimes.setVisible(false);
+                pnlinscreveratletas.setVisible(true);
+                pnlstatus.setVisible(true);
+            }
+            case "Coletivo" -> {
+                radioColetivo.setSelected(rootPaneCheckingEnabled);
+                pnlinscreveratletas.setVisible(true);
+                pnlcadastrartimes.setVisible(true);
+                pnlstatus.setVisible(true);
+            }
+            default -> JOptionPane.showMessageDialog(this, "Esse esporte não tem tipo");
+        }
+    }//GEN-LAST:event_cmbEsporteActionPerformed
+
+    private void txtDtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDtActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> cmbEsporte;
     private javax.swing.ButtonGroup grptipo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -454,20 +473,21 @@ public class DlgCadTorneio extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPanel pnlcadastrartimes;
     private javax.swing.JPanel pnlinscreveratletas;
+    private javax.swing.JPanel pnlstatus;
+    private javax.swing.JRadioButton radioColetivo;
+    private javax.swing.JRadioButton radioIndividual;
+    private javax.swing.JTable tabelaInscritos;
+    private javax.swing.JFormattedTextField txtDt;
+    private javax.swing.JTextField txtLocal;
     private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

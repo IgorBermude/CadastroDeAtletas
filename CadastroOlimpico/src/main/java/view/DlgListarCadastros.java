@@ -214,7 +214,7 @@ public class DlgListarCadastros extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Selecione um cliente", "Pesquisar Cliente", JOptionPane.ERROR_MESSAGE );
         }
 
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnSelecionarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed

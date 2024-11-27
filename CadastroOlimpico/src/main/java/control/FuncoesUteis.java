@@ -9,6 +9,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -28,41 +29,41 @@ import javax.swing.UIManager;
  * @author 2022122760265
  */
 public class FuncoesUteis {
-    
+
     public static void mostrarFoto(JLabel lbl, Icon ic) {
-        
+
         // Redimensionar
         ImageIcon imagem = (ImageIcon) ic;
         imagem.setImage(imagem.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
-        
-        lbl.setText("");                
+
+        lbl.setText("");
         lbl.setIcon(imagem);
-    } 
-    
+    }
+
     public static void aplicarTemaEscuro() {
         try {
             // Define o tema escuro do FlatLaf
             UIManager.setLookAndFeel(new FlatDarkLaf());
-            
+
             // Atualizar o visual dos componentes existentes
             SwingUtilities.updateComponentTreeUI(JFrame.getFrames()[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
+
     public static void aplicarTemaClaro() {
         try {
             // Define o tema escuro do FlatLaf
             UIManager.setLookAndFeel(new FlatLightLaf());
-            
+
             // Atualizar o visual dos componentes existentes
             SwingUtilities.updateComponentTreeUI(JFrame.getFrames()[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
+
     public static byte[] IconToBytes(Icon icon) {
         if (icon == null) {
             return null;
@@ -89,7 +90,26 @@ public class FuncoesUteis {
             return bFile;
         }
     }
-    
+
+    public static Icon BytesToIcon(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
+            // Converte os bytes em uma imagem BufferedImage
+            BufferedImage img = ImageIO.read(bais);
+            if (img != null) {
+                // Cria e retorna um ícone a partir da imagem
+                return new ImageIcon(img);
+            }
+        } catch (IOException ex) {
+            System.out.println("Erro ao converter bytes para ícone: " + ex.getMessage());
+        }
+
+        return null;
+    }
+
     public static Date converterStringParaDate(String dataString, String formato) {
         if (dataString == null || dataString.trim().isEmpty()) {
             System.out.println("A string da data está vazia ou nula.");
@@ -106,15 +126,15 @@ public class FuncoesUteis {
             return null;
         }
     }
-    
-    public static boolean isCPF(String parCpf) {      
-               
+
+    public static boolean isCPF(String parCpf) {
+
         // considera-se erro cpf's formados por uma sequencia de numeros iguais
         String cpf;
         cpf = parCpf.replace(".", "");
         cpf = cpf.replace(".", "");
         cpf = cpf.replace("-", "");
-        
+
         if (cpf.equals("00000000000")
                 || cpf.equals("11111111111")
                 || cpf.equals("22222222222") || cpf.equals("33333333333")
@@ -122,11 +142,9 @@ public class FuncoesUteis {
                 || cpf.equals("66666666666") || cpf.equals("77777777777")
                 || cpf.equals("88888888888") || cpf.equals("99999999999")
                 || (cpf.length() != 11)) {
-            
+
             return (true);  // Para teste
-            
-            
-            
+
         }
 
         char dig10, dig11;
@@ -172,6 +190,6 @@ public class FuncoesUteis {
         } else {
             return (false);
         }
-        
+
     }
 }

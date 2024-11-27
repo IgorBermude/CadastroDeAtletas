@@ -23,7 +23,7 @@ public class AtletaTableModel extends AbstractTableModel{
     
     @Override
     public int getColumnCount(){
-        return 5;
+        return 6;
     }
     
     @Override
@@ -36,13 +36,14 @@ public class AtletaTableModel extends AbstractTableModel{
             case 2: return item.getOuro();
             case 3: return item.getPrata();
             case 4: return item.getBronze();
+            case 5: return item.getNacionalidae();
             default: return null;
         }
     }
     
     @Override
     public String getColumnName(int column){
-        String nomeColunas[] = {"Atleta", "Esporte", "Ouro", "Prata", "Bronze"};
+        String nomeColunas[] = {"Atleta", "Esporte", "Ouro", "Prata", "Bronze", "Nacionalidade"};
         return nomeColunas[column]; 
     }
 

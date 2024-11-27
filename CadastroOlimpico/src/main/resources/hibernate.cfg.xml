@@ -8,7 +8,7 @@
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/postgres</property>
     <property name="hibernate.connection.username">postgres</property> <!-- Insira o seu usuário do PostgreSQL -->
-    <property name="hibernate.connection.password">postgres</property> <!-- Insira a senha do PostgreSQL -->
+    <property name="hibernate.connection.password">postgre</property> <!-- Insira a senha do PostgreSQL -->
     <property name="hibernate.cache.use_second_level_cache">false</property>
     <property name="hibernate.cache.use_query_cache">false</property>
 

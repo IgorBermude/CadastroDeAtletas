@@ -4,7 +4,6 @@
  */
 package Model;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +50,7 @@ public class Atleta implements Serializable {
     private String sobre;
     
     @Column (name = "nascimentoAtleta", nullable = false )
-    private Date nascimento;
+    private String nascimento;
     
     private int ouro;
     private int prata;
@@ -88,7 +87,7 @@ public class Atleta implements Serializable {
 
     
     
-    public Atleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto, Date nascimento, List<Esporte> esportes) {
+    public Atleta(String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto, String nascimento, List<Esporte> esportes) {
         this.nome = nome;
         this.cpf = cpf;
         this.celular = celular;
@@ -219,4 +218,14 @@ public class Atleta implements Serializable {
     public int getIdAtleta() {
         return idAtleta;
     }
+
+    public String getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(String nascimento) {
+        this.nascimento = nascimento;
+    }
+    
+    
 }

@@ -33,8 +33,8 @@ public class TorneioColetivo implements Serializable{
     @GeneratedValue ( strategy = GenerationType.IDENTITY)
     private int idTorneioColetivo;
     
-    @Temporal ( value = TemporalType.DATE)
-    private Date data;
+    @Column ( name = "dataTorneioColetivo", nullable = false )
+    private String data;
     
     @Column (name = "localTorneioColetivo", nullable = false )
     private String local;
@@ -61,7 +61,7 @@ public class TorneioColetivo implements Serializable{
     }
 
     
-    public TorneioColetivo(EsporteColetivo esporteColetivo, Date data, String local, List<Time> times, Map<Time, Integer> Resultado) {
+    public TorneioColetivo(EsporteColetivo esporteColetivo, String data, String local, List<Time> times, Map<Time, Integer> Resultado) {
         this.esporteColetivo = esporteColetivo;
         this.data = data;
         this.local = local;
@@ -73,7 +73,7 @@ public class TorneioColetivo implements Serializable{
         return esporteColetivo;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
@@ -93,7 +93,7 @@ public class TorneioColetivo implements Serializable{
         this.esporteColetivo = esporteColetivo;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

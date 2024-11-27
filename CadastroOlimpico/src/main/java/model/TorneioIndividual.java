@@ -33,8 +33,8 @@ public class TorneioIndividual implements Serializable{
     @GeneratedValue ( strategy = GenerationType.IDENTITY)
     private int idTorneioIndividual;  
     
-    @Temporal ( value = TemporalType.DATE)
-    private Date data;
+    @Column ( name = "dataTorneioIndividual", nullable = false )
+    private String data;
     
     @Column (name = "localTorneioIndividual", nullable = false )
     private String local;
@@ -60,7 +60,7 @@ public class TorneioIndividual implements Serializable{
     public TorneioIndividual() {
     }
 
-    public TorneioIndividual(EsporteIndividual esporteIndividual, Date data, String local, List<Atleta> atletas, Map<Atleta, Integer> Resultado) {
+    public TorneioIndividual(EsporteIndividual esporteIndividual, String data, String local, List<Atleta> atletas, Map<Atleta, Integer> Resultado) {
         this.esporteIndividual = esporteIndividual;
         this.data = data;
         this.local = local;
@@ -72,7 +72,7 @@ public class TorneioIndividual implements Serializable{
         return esporteIndividual;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
@@ -92,7 +92,7 @@ public class TorneioIndividual implements Serializable{
         this.esporteIndividual = esporteIndividual;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

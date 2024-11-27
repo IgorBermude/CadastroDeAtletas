@@ -326,12 +326,6 @@ public class DlgCadEsporte extends javax.swing.JDialog {
             txttipo.setForeground(Color.red);
         }
 
-        // Validar foto
-        if (lblFoto.getIcon() == null) {
-            msgErro += "Adicione uma foto ao esporte.\n";
-            lblFoto.setForeground(Color.red);
-        }
-
         // Exibir mensagens de erro ou retornar verdadeiro
         if (msgErro.isEmpty()) {
             return true;

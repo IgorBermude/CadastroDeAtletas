@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class Esporte implements Serializable {
     @Column (name = "descricaoEsporte", nullable = false )
     private String descricao;
     
-    @ManyToMany(mappedBy = "esportes")
+    @ManyToMany(mappedBy = "esportes", fetch = FetchType.EAGER)
     private List<Atleta> atletas;
     
     @Column (name = "tipoesporte", nullable = false, length = 20 )
