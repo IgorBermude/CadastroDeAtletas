@@ -23,7 +23,7 @@ public class EsporteTableModel extends AbstractTableModel{
     
     @Override
     public int getColumnCount(){
-        return 6;
+        return 1;
     }
     
     @Override
@@ -56,7 +56,7 @@ public class EsporteTableModel extends AbstractTableModel{
         }    
     }
     
-    public Esporte getAtleta(int linha) {
+    public Esporte getEsporte(int linha) {
         return listaEsportes.get(linha);
     }
     

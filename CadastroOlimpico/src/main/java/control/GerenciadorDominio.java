@@ -87,4 +87,8 @@ public class GerenciadorDominio {
     public List<Atleta> pesquisarAtleta(String pesq) throws HibernateException {
         return atlDAO.pesquisarPorNome(pesq);
     }
+    
+    public void limpar(Class classe)throws HibernateException {
+        genDAO.limpar(classe);
+    }
 }

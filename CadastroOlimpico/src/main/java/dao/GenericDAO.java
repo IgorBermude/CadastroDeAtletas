@@ -103,7 +103,32 @@ public class GenericDAO {
         }  
         
         return lista;
-    }   
+    }  
+    
+    public void limpar(Class classe) {
+        Session sessao = null;
+        try {
+            // Abrindo uma nova sessão
+            sessao = ConexaoHibernate.getSessionFactory().openSession();
+            sessao.beginTransaction();
+
+            String hql = "DELETE FROM " + classe.getSimpleName();  // Exclui todos os objetos de uma tabela
+
+            // Executando a consulta
+            sessao.createQuery(hql).executeUpdate();
+
+            // Commit da transação
+            sessao.getTransaction().commit();
+            sessao.close();
+        } catch (HibernateException erro) {
+            // Se ocorrer algum erro, realiza o rollback da transação
+            if (sessao != null) {
+                sessao.getTransaction().rollback();
+            }
+            throw new HibernateException("Erro ao limpar lista de Atletas", erro);
+        }
+    }
+
     
     
 }

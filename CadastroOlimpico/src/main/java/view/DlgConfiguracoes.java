@@ -4,9 +4,12 @@
  */
 package view;
 
+import Model.Atleta;
+import Model.Esporte;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import control.FuncoesUteis;
+import control.GerenciadorInterfaceGrafica;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -52,6 +55,11 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
 
         jButton1.setForeground(new java.awt.Color(255, 0, 0));
         jButton1.setText("LIMPAR LISTA DE ATLETAS");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("CONECTAR NO BANCO");
 
@@ -64,6 +72,11 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
 
         jButton4.setForeground(new java.awt.Color(255, 0, 0));
         jButton4.setText("LIMPAR LISTA DE ESPORTES");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setForeground(new java.awt.Color(255, 0, 0));
         jButton5.setText("LIMPAR LISTAS DO BANCO");
@@ -108,8 +121,7 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioButton1)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jRadioButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -151,6 +163,14 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         FuncoesUteis.aplicarTemaClaro();
     }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(Atleta.class);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(Esporte.class);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

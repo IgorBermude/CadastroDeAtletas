@@ -32,7 +32,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     
     String formatoData = "dd/MM/yyyy";   // Formato da data esperado
     Icon icone;
-    private EsporteTableModel esporteAtletaModel;
+    private EsporteTableModel tableEsporteModel;
 
     
     /**
@@ -44,12 +44,12 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         icone = lblFoto.getIcon();
         
         //Associar a tableModel
-        esporteAtletaModel = new EsporteTableModel();
-        listEsporte.setModel( esporteAtletaModel );
+        tableEsporteModel = new EsporteTableModel();
+        listEsporte.setModel( tableEsporteModel );
         
         // Atualizar o JTable
         List<Esporte> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().listar(Esporte.class);
-        esporteAtletaModel.setLista(lista);
+        tableEsporteModel.setLista(lista);
     }
 
     /**
@@ -533,6 +533,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        
+        //Erro por aqui---------------------
         String nome = txtnome.getText();
         String cpf = txtCPF.getText();        
         String sexo;
@@ -549,19 +551,22 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         String nascimento = txtDtNascimento.getText();
         String email = txtEmail.getText();
         
+        List<Esporte> esportes = new ArrayList<>();
         // Obter os índices das linhas selecionadas
         int[] linhasSelecionadas = listEsporte.getSelectedRows();
         // Percorrer os índices e buscar os objetos no modelo da tabela
         for (int linha : linhasSelecionadas) {
-            Esporte esporte = (Esporte) esporteAtletaModel.getValueAt(linha, colunaObjeto); // Coluna com o objeto Esporte
-            esportesSelecionados.add(esporte);
+            Esporte esporte = (Esporte) tableEsporteModel.getEsporte(linha); // Coluna com o objeto Esporte
+            esportes.add(esporte);
         }
+        System.out.println(esportes);
         
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
         String sobre = paneSobre.getText();
         int ouro = (int) SpinnerMedalhaOuro.getValue();
         int prata = (int) SpinnerMedalhaPrata.getValue();
         int bronze = (int) SpinnerMedalhaBronze.getValue();
+        //---------------------
         
         if ( validarCampos() ) {
             // INSERIR NO BANCO
@@ -570,27 +575,23 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                 if ( atlSelecionado == null ) {
                     // INSERIR
                     int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirAtleta(nome, cpf, celular, email, sexo,nacionalidade,
-                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esporte);
+                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esportes);
 
                     JOptionPane.showMessageDialog(this, "Atleta " + id + " inserido com sucesso." );
                     limparCampos();
                 } else {
                     // ALTERAR
                     GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarAtleta(nome, cpf, celular, email, sexo,nacionalidade, 
-                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esporte);
+                            sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esportes);
 
                     JOptionPane.showMessageDialog(this, "Atleta alterado com sucesso." );
                     
                 }
-                
-                
-                
+   
             }
             catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "ERRO Atleta", JOptionPane.ERROR_MESSAGE  );
             }
-            
-        
         }
     }//GEN-LAST:event_btnAdicionarActionPerformed
                                
@@ -634,7 +635,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             txtEmail.setText( "" );
             lblFoto.setIcon(icone);
             lblFoto.setIcon(null);
-            listEsporte.setSelectedIndex(0);
+            listEsporte.clearSelection();
             cmbNacionalidade.setSelectedIndex(0);
             SpinnerMedalhaOuro.setValue(0);
             SpinnerMedalhaPrata.setValue(0);
@@ -686,6 +687,12 @@ public class DlgGerAtleta extends javax.swing.JDialog {
        if (txtEmail.getText().trim().isEmpty()) {
            msgErro += "Informe o e-mail.\n";
            lblEmail.setForeground(Color.red);
+       }
+       
+       //Validar esporte
+       if (listEsporte.getSelectedRowCount() == 0) {
+           msgErro += "Informe o esporte.\n";
+           lblEsporte.setForeground(Color.red);
        }
 
        // Exibir mensagens de erro ou retornar verdadeiro
