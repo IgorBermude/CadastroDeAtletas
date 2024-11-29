@@ -6,6 +6,8 @@ package view;
 
 import Model.Atleta;
 import Model.Esporte;
+import control.AtletaTableModel;
+import control.EsporteTableModel;
 import control.FuncoesUteis;
 import control.GerenciadorInterfaceGrafica;
 import java.awt.Color;
@@ -30,6 +32,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     
     String formatoData = "dd/MM/yyyy";   // Formato da data esperado
     Icon icone;
+    private EsporteTableModel esporteAtletaModel;
+
     
     /**
      * Creates new form CadAtleta
@@ -38,7 +42,14 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         icone = lblFoto.getIcon();
-        GerenciadorInterfaceGrafica.getMyInstance().carregarList(listEsporte, Esporte.class);
+        
+        //Associar a tableModel
+        esporteAtletaModel = new EsporteTableModel();
+        listEsporte.setModel( esporteAtletaModel );
+        
+        // Atualizar o JTable
+        List<Esporte> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().listar(Esporte.class);
+        esporteAtletaModel.setLista(lista);
     }
 
     /**
@@ -53,6 +64,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         grpSexo = new javax.swing.ButtonGroup();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         PainelTitulo = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JLabel();
         PainelSobre = new javax.swing.JPanel();
@@ -62,8 +75,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         cmbNacionalidade = new javax.swing.JComboBox<>();
         lblNacionalidade = new javax.swing.JLabel();
         txtSobre = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listEsporte = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listEsporte = new javax.swing.JTable();
         PainelMedalhas = new javax.swing.JPanel();
         txtMedalhas = new javax.swing.JLabel();
         iconMedalhaBronze = new javax.swing.JLabel();
@@ -99,6 +112,19 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
         jLabel13.setText("jLabel13");
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Atletas");
         setBackground(new java.awt.Color(255, 255, 255));
@@ -127,7 +153,26 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
         txtSobre.setText("Sobre o Atleta");
 
-        jScrollPane1.setViewportView(listEsporte);
+        listEsporte.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Esporte"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(listEsporte);
 
         javax.swing.GroupLayout PainelSobreLayout = new javax.swing.GroupLayout(PainelSobre);
         PainelSobre.setLayout(PainelSobreLayout);
@@ -136,38 +181,43 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             .addGroup(PainelSobreLayout.createSequentialGroup()
                 .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PainelSobreLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(ScrollPaneSobre))
-                    .addGroup(PainelSobreLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
                         .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSobre)
                             .addGroup(PainelSobreLayout.createSequentialGroup()
-                                .addComponent(lblEsporte)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblNacionalidade)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 171, Short.MAX_VALUE)))
+                                .addGap(16, 16, 16)
+                                .addComponent(txtSobre))
+                            .addGroup(PainelSobreLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblEsporte)))
+                        .addGap(216, 216, 216)
+                        .addComponent(lblNacionalidade)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(PainelSobreLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ScrollPaneSobre)
+                            .addComponent(jScrollPane3))))
                 .addContainerGap())
         );
         PainelSobreLayout.setVerticalGroup(
             PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PainelSobreLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
                 .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblNacionalidade))
-                    .addComponent(lblEsporte)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PainelSobreLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(PainelSobreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNacionalidade)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelSobreLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblEsporte)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSobre)
-                .addGap(1, 1, 1)
-                .addComponent(ScrollPaneSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ScrollPaneSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         PainelMedalhas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -297,7 +347,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             }
         });
 
-        lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(null));
 
         jLabel15.setText("Sexo");
 
@@ -498,8 +548,15 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         String celular = txtCelular.getText();
         String nascimento = txtDtNascimento.getText();
         String email = txtEmail.getText();
-        List<Esporte> esporte = new ArrayList<>();
-        esporte.add(listEsporte.getSelectedValue());
+        
+        // Obter os índices das linhas selecionadas
+        int[] linhasSelecionadas = listEsporte.getSelectedRows();
+        // Percorrer os índices e buscar os objetos no modelo da tabela
+        for (int linha : linhasSelecionadas) {
+            Esporte esporte = (Esporte) esporteAtletaModel.getValueAt(linha, colunaObjeto); // Coluna com o objeto Esporte
+            esportesSelecionados.add(esporte);
+        }
+        
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
         String sobre = paneSobre.getText();
         int ouro = (int) SpinnerMedalhaOuro.getValue();
@@ -666,7 +723,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCPF;
     private javax.swing.JLabel lblCelular;
     private javax.swing.JLabel lblDtNasc;
@@ -675,7 +734,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JLabel lblFoto;
     private javax.swing.JLabel lblNacionalidade;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JList<String> listEsporte;
+    private javax.swing.JTable listEsporte;
     private javax.swing.JButton lupa;
     private javax.swing.JTextPane paneSobre;
     private javax.swing.JFormattedTextField txtCPF;
