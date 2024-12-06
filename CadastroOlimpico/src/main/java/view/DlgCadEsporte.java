@@ -278,20 +278,34 @@ public class DlgCadEsporte extends javax.swing.JDialog {
         if ( validarCampos() ) {
             // INSERIR NO BANCO
             try {
+                if(tipo.equals("Individual")){
+                    if ( espSelecionado == null ) {
+                        // INSERIR
+                        int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirEsporteIndividual(lblFoto.getIcon(),nome, descricao, tipo);
 
-                if ( espSelecionado == null ) {
-                    // INSERIR
-                    int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirEsporte(lblFoto.getIcon(),nome, descricao, tipo);
+                        JOptionPane.showMessageDialog(this, "Esporte Individual " + id + " inserido com sucesso." );
+                        limparCampos();
+                    } else {
+                        // ALTERAR
+                        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarEsporte(lblFoto.getIcon(),nome, descricao, tipo);
 
-                    JOptionPane.showMessageDialog(this, "Esporte " + id + " inserido com sucesso." );
-                    limparCampos();
-                } else {
-                    // ALTERAR
-                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarEsporte(lblFoto.getIcon(),nome, descricao, tipo);
+                        JOptionPane.showMessageDialog(this, "Esporte Individual alterado com sucesso." );
+                    }
+                }else if(tipo.equals("Coletivo")){
+                    if ( espSelecionado == null ) {
+                        // INSERIR
+                        int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirEsporteColetivo(lblFoto.getIcon(),nome, descricao, tipo);
 
-                    JOptionPane.showMessageDialog(this, "Esporte alterado com sucesso." );
+                        JOptionPane.showMessageDialog(this, "Esporte Coletivo " + id + " inserido com sucesso." );
+                        limparCampos();
+                    } else {
+                        // ALTERAR
+                        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarEsporte(lblFoto.getIcon(),nome, descricao, tipo);
 
+                        JOptionPane.showMessageDialog(this, "Esporte Coletivo alterado com sucesso." );
+                    }
                 }
+
 
             }
             catch (Exception ex) {

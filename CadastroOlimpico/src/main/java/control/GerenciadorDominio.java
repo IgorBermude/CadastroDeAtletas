@@ -6,6 +6,8 @@ package control;
 
 import Model.Atleta;
 import Model.Esporte;
+import Model.EsporteColetivo;
+import Model.EsporteIndividual;
 import dao.AtletaDAO;
 import dao.ConexaoHibernate;
 import dao.EsporteDAO;
@@ -69,6 +71,26 @@ public class GerenciadorDominio {
     public int inserirEsporte(Icon foto, String nome, String descricao, String tipo) throws HibernateException  {
 
         Esporte esp = new Esporte( FuncoesUteis.IconToBytes(foto), nome, descricao, tipo);
+                
+        espDAO.inserir(esp);
+        
+        return esp.getIdEsporte();
+        
+    }
+    
+    public int inserirEsporteColetivo(Icon foto, String nome, String descricao, String tipo) throws HibernateException  {
+
+        Esporte esp = new EsporteColetivo( FuncoesUteis.IconToBytes(foto), nome, descricao, tipo);
+                
+        espDAO.inserir(esp);
+        
+        return esp.getIdEsporte();
+        
+    }
+    
+    public int inserirEsporteIndividual(Icon foto, String nome, String descricao, String tipo) throws HibernateException  {
+
+        Esporte esp = new EsporteIndividual( FuncoesUteis.IconToBytes(foto), nome, descricao, tipo);
                 
         espDAO.inserir(esp);
         

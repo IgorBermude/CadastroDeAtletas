@@ -6,6 +6,8 @@ package view;
 
 import Model.Atleta;
 import Model.Esporte;
+import Model.EsporteColetivo;
+import Model.Time;
 import Model.TorneioColetivo;
 import Model.TorneioIndividual;
 import control.AtletaTableModel;
@@ -70,6 +72,8 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         jButton4 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tabelaAtletas = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         cmbEsporte = new javax.swing.JComboBox<>();
@@ -202,6 +206,8 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         });
         jScrollPane4.setViewportView(tabelaAtletas);
 
+        jLabel10.setText("Nome:");
+
         javax.swing.GroupLayout pnlcadastrartimesLayout = new javax.swing.GroupLayout(pnlcadastrartimes);
         pnlcadastrartimes.setLayout(pnlcadastrartimesLayout);
         pnlcadastrartimesLayout.setHorizontalGroup(
@@ -214,16 +220,21 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                         .addComponent(jButton5)
                         .addGap(46, 46, 46))
                     .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                        .addComponent(jLabel8))
                     .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
                         .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jButton4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8)))
+                            .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton4)
+                            .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -241,9 +252,13 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                         .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
                         .addComponent(jButton4)
-                        .addGap(55, 55, 55)
+                        .addGap(20, 20, 20)
                         .addComponent(jButton5)
                         .addGap(0, 6, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
@@ -346,7 +361,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        pnlstatus.setBorder(javax.swing.BorderFactory.createTitledBorder(null));
+        pnlstatus.setBorder(javax.swing.BorderFactory.createTitledBorder("Status torneio"));
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/remove.png"))); // NOI18N
         btnCancelar.setText("Cancelar Torneio");
@@ -449,11 +464,14 @@ public class DlgCadTorneio extends javax.swing.JDialog {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // Vai pegar todos os atletas da nacionalidade escolhida e que sejam do esporte e jogar em um time
-        Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
+        EsporteColetivo esporteSelecionado = (EsporteColetivo) cmbEsporte.getSelectedItem();
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
+        String nome = txtNome.getText();
                 
         List<Atleta> lista = esporteSelecionado.getAtletaNacionalidade(nacionalidade);
         tableAtletaModel2.setLista(lista);
+        
+        Time time = new Time(nome, nacionalidade, lista, esporteSelecionado);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void cmbEsporteComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cmbEsporteComponentShown
@@ -496,6 +514,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -520,6 +539,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
     private javax.swing.JTable tabelaInscritos;
     private javax.swing.JFormattedTextField txtDt;
     private javax.swing.JTextField txtLocal;
+    private javax.swing.JTextField txtNome;
     private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

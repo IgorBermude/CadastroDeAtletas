@@ -52,12 +52,11 @@ public class Time implements Serializable{
     public Time() {
     }
 
-    public Time(String nome, String nacionalidade, List<Atleta> atletas, EsporteColetivo esporteColetivo, List<TorneioColetivo> torneios) {
+    public Time(String nome, String nacionalidade, List<Atleta> atletas, EsporteColetivo esporteColetivo) {
         this.nome = nome;
         this.nacionalidade = nacionalidade;
         this.atletas = atletas;
         this.esporteColetivo = esporteColetivo;
-        this.torneios = torneios;
     }
 
     public String getNome() {

@@ -11,7 +11,7 @@
     <property name="hibernate.connection.password">postgres</property> <!-- Insira a senha do PostgreSQL -->
     <property name="hibernate.cache.use_second_level_cache">false</property>
     <property name="hibernate.cache.use_query_cache">false</property>
-
+    <property name="hibernate.default_schema">public</property> <!-- Devido a um probleminha no banco eu defini o esquema "public" -->
 
     <!-- Propriedades adicionais do Hibernate -->
     <property name="hibernate.hbm2ddl.auto">update</property>   

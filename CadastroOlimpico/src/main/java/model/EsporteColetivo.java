@@ -31,10 +31,8 @@ public class EsporteColetivo extends Esporte implements Serializable{
     public EsporteColetivo() {
     }
 
-    public EsporteColetivo(List<Time> times, List<TorneioColetivo> torneios, byte[] foto, String nome, String descricao, List<Atleta> atletas, String tipo) {
-        super(foto, nome, descricao, atletas, tipo);
-        this.times = times;
-        this.torneios = torneios;
+    public EsporteColetivo(byte[] foto, String nome, String descricao, String tipo) {
+        super(foto, nome, descricao, tipo);
     }
 
     public List<Time> getTimes() {

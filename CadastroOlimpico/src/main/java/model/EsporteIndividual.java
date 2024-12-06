@@ -28,9 +28,8 @@ public class EsporteIndividual extends Esporte implements Serializable{
     public EsporteIndividual() {
     }
 
-    public EsporteIndividual(List<TorneioIndividual> torneios, byte[] foto, String nome, String descricao, List<Atleta> atletas, String tipo) {
-        super(foto, nome, descricao, atletas, tipo);
-        this.torneios = torneios;
+    public EsporteIndividual(byte[] foto, String nome, String descricao, String tipo) {
+        super(foto, nome, descricao, tipo);
     }
 
     public List<TorneioIndividual> getTorneios() {
