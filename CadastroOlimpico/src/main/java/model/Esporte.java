@@ -5,6 +5,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -92,6 +93,23 @@ public class Esporte implements Serializable {
 
     public List<Atleta> getAtletas() {
         return atletas;
+    }
+    
+    public List<Atleta> getAtletaNacionalidade(String nacionalidade){
+        //Obtem o atleta por nacionalidade.
+        if (atletas == null || atletas.isEmpty()) {
+            return new ArrayList<>(); // Retorna uma lista vazia
+        }
+
+        // Filtra os atletas com base na nacionalidade
+        List<Atleta> atletasFiltrados = new ArrayList<>();
+        for (Atleta atleta : atletas) {
+            if (atleta.getNacionalidae().equalsIgnoreCase(nacionalidade)) {
+                atletasFiltrados.add(atleta);
+            }
+        }
+
+        return atletasFiltrados;
     }
 
     public int getIdEsporte() {
