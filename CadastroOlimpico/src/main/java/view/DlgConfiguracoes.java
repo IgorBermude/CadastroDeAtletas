@@ -6,6 +6,11 @@ package view;
 
 import Model.Atleta;
 import Model.Esporte;
+import Model.EsporteColetivo;
+import Model.EsporteIndividual;
+import Model.Time;
+import Model.TorneioColetivo;
+import Model.TorneioIndividual;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import control.FuncoesUteis;
@@ -44,6 +49,8 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         jRadioButton3.setText("jRadioButton3");
 
@@ -84,6 +91,22 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
             }
         });
 
+        jButton5.setForeground(new java.awt.Color(255, 0, 0));
+        jButton5.setText("LIMPAR LISTA DE TIMES");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setForeground(new java.awt.Color(255, 0, 0));
+        jButton6.setText("LIMPAR AS LISTAS DE TORNEIOS");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -98,7 +121,9 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioButton1)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)))
+                        .addComponent(jRadioButton2))
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -109,11 +134,15 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,13 +162,26 @@ public class DlgConfiguracoes extends javax.swing.JDialog {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(Esporte.class);
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(EsporteColetivo.class);
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(EsporteIndividual.class);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(Time.class);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(TorneioColetivo.class);
+        GerenciadorInterfaceGrafica.getMyInstance().getGerDom().limpar(TorneioIndividual.class);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;

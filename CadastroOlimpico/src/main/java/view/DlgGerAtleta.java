@@ -628,9 +628,10 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             lblFoto.setIcon(FuncoesUteis.BytesToIcon(atl.getFoto()));
             List<Esporte> listEsporte = atl.getEsportes();
             cmbNacionalidade.setSelectedIndex(0);
-            SpinnerMedalhaOuro.setValue(0);
-            SpinnerMedalhaPrata.setValue(0);
-            SpinnerMedalhaBronze.setValue(0);
+            SpinnerMedalhaOuro.setValue(atl.getOuro());
+            SpinnerMedalhaPrata.setValue(atl.getPrata());
+            SpinnerMedalhaBronze.setValue(atl.getBronze());
+            paneSobre.setText(atl.getSobre());
             
             if ( atl.getSexo().equals("Masculino") ) {
                 rdbMasculino.setSelected(true);

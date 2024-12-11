@@ -318,7 +318,6 @@ public class DlgCadEsporte extends javax.swing.JDialog {
         // Validar descrição
         if (lbldescricao.getText().trim().isEmpty()) {
             msgErro += "Digite a descrição do esporte.\n";
-            lbldescricao.setForeground(Color.red);
         }
 
         // Validar tipo
