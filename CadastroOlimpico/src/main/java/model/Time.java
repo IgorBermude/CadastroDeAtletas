@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,12 @@ public class Time implements Serializable{
     @Column(name = "nacionalidadeTime", nullable = false)
     private String nacionalidade;
     
-    @OneToMany(mappedBy = "time")
+    @ManyToMany
+    @JoinTable(
+        name = "time_atleta",  // Nome da tabela intermediária
+        joinColumns = @JoinColumn(name = "time_id"),  // Chave estrangeira de Time
+        inverseJoinColumns = @JoinColumn(name = "atleta_id")  // Chave estrangeira de Atleta
+    )
     private List<Atleta> atletas;
     
     @ManyToOne
@@ -97,6 +103,14 @@ public class Time implements Serializable{
 
     public void setTorneios(List<TorneioColetivo> torneios) {
         this.torneios = torneios;
+    }
+
+    public int getIdTime() {
+        return idTime;
+    }
+
+    public void setIdTime(int idTime) {
+        this.idTime = idTime;
     }
     
     

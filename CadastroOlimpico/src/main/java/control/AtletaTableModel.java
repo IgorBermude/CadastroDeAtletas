@@ -36,14 +36,14 @@ public class AtletaTableModel extends AbstractTableModel{
             case 2: return item.getOuro();
             case 3: return item.getPrata();
             case 4: return item.getBronze();
-            case 5: return item.getNacionalidae();
+            case 5: return item.getNacionalidade();
             default: return null;
         }
     }
     
     @Override
     public String getColumnName(int column){
-        String nomeColunas[] = {"Atleta", "Esporte", "Ouro", "Prata", "Bronze", "Nacionalidade"};
+        String nomeColunas[] = {"Atleta", "Esportes", "Ouro", "Prata", "Bronze", "Nacionalidade"};
         return nomeColunas[column]; 
     }
 
@@ -68,5 +68,9 @@ public class AtletaTableModel extends AbstractTableModel{
      public void remover (int indice) {        
         listaAtletas.remove(indice);
         fireTableRowsDeleted( indice, indice );   
+    }
+
+    public List<Atleta> getListaAtletas() {
+        return listaAtletas;
     }
 }

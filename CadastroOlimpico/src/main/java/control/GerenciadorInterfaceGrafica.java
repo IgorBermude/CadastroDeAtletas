@@ -6,6 +6,7 @@ package control;
 import Model.Atleta;
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -20,7 +21,6 @@ import view.DlgCadTorneio;
 import view.DlgConfiguracoes;
 import view.DlgListarCadastros;
 import view.DlgResultado;
-import view.DlgTimes;
 import view.FrmPrincipal;
 
 /**
@@ -37,7 +37,6 @@ public class GerenciadorInterfaceGrafica {
     private DlgListarCadastros listCad = null;
     private DlgCadTorneio cadTor = null;
     private DlgResultado res = null;
-    private DlgTimes tim = null;
 
     GerenciadorDominio gerDom;
     // SINGLETON
@@ -89,6 +88,25 @@ public class GerenciadorInterfaceGrafica {
         }
 
     }
+    
+    public void carregarComboDuasClasses(JComboBox combo, Class classe1, Class classe2) {
+        try {
+            // Obter listas de ambas as classes
+            List lista1 = gerDom.listar(classe1);
+            List lista2 = gerDom.listar(classe2);
+
+            // Combinar as duas listas em uma só
+            List listaCombinada = new ArrayList();
+            listaCombinada.addAll(lista1);
+            listaCombinada.addAll(lista2);
+
+            // Carregar o JComboBox com os itens combinados
+            combo.setModel(new DefaultComboBoxModel(listaCombinada.toArray()));
+        } catch (HibernateException ex) {
+            JOptionPane.showMessageDialog(princ, ex, "ERRO ao carregar combobox.", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     public void carregarList(JList lista, Class classe) {
         try {
@@ -143,11 +161,7 @@ public class GerenciadorInterfaceGrafica {
     public void abrirResultado() {
         abrirJanela(princ, res, DlgResultado.class);
     }
-
-    public void abrirVerTimes() {
-        abrirJanela(princ, tim, DlgTimes.class);
-    }
-
+    
     public Atleta abrirPesqAtleta() {
         listCad = (DlgListarCadastros) abrirJanela(princ, listCad, DlgListarCadastros.class);
         return listCad.getAtlSelecionado();

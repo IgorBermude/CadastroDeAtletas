@@ -80,6 +80,10 @@ public class TorneioIndividual implements Serializable{
         return local;
     }
 
+    public int getIdTorneioIndividual() {
+        return idTorneioIndividual;
+    }
+
     public List<Atleta> getAtletas() {
         return atletas;
     }

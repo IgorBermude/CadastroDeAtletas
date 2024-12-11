@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Model;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -26,31 +27,31 @@ import javax.persistence.TemporalType;
  *
  * @author 2022122760265
  */
-
 @Entity
-public class TorneioColetivo implements Serializable{
+public class TorneioColetivo implements Serializable {
+
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTorneioColetivo;
-    
-    @Column ( name = "dataTorneioColetivo", nullable = false )
+
+    @Column(name = "dataTorneioColetivo", nullable = false)
     private String data;
-    
-    @Column (name = "localTorneioColetivo", nullable = false )
+
+    @Column(name = "localTorneioColetivo", nullable = false)
     private String local;
-    
+
     @ManyToOne
     @JoinColumn(name = "esporte_coletivo_id")
     private EsporteColetivo esporteColetivo;
-    
+
     @ManyToMany
     @JoinTable(
-        name = "torneio_coletivo_time",
-        joinColumns = @JoinColumn(name = "torneio_coletivo_id"),
-        inverseJoinColumns = @JoinColumn(name = "time_id")
+            name = "torneio_coletivo_time",
+            joinColumns = @JoinColumn(name = "torneio_coletivo_id"),
+            inverseJoinColumns = @JoinColumn(name = "time_id")
     )
     private List<Time> times;
-    
+
     @ElementCollection
     @CollectionTable(name = "resultado_coletivo", joinColumns = @JoinColumn(name = "torneio_coletivo_id"))
     @MapKeyJoinColumn(name = "time_id")
@@ -60,7 +61,10 @@ public class TorneioColetivo implements Serializable{
     public TorneioColetivo() {
     }
 
-    
+    public int getIdTorneioColetivo() {
+        return idTorneioColetivo;
+    }
+
     public TorneioColetivo(EsporteColetivo esporteColetivo, String data, String local, List<Time> times, Map<Time, Integer> Resultado) {
         this.esporteColetivo = esporteColetivo;
         this.data = data;
@@ -108,6 +112,5 @@ public class TorneioColetivo implements Serializable{
     public void setResultado(Map<Time, Integer> Resultado) {
         this.Resultado = Resultado;
     }
-    
-    
+
 }

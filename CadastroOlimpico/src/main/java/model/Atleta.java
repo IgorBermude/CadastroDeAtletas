@@ -44,7 +44,7 @@ public class Atleta implements Serializable {
     private String sexo;
     
     @Column (name = "nacionalidadeAtleta", nullable = false )
-    private String nacionalidae;
+    private String nacionalidade;
     
     @Column (name = "sobreAtleta", nullable = false )
     private String sobre;
@@ -93,7 +93,25 @@ public class Atleta implements Serializable {
         this.celular = celular;
         this.email = email;
         this.sexo = sexo;
-        this.nacionalidae = nacionalidae;
+        this.nacionalidade = nacionalidae;
+        this.sobre = sobre;
+        this.ouro = ouro;
+        this.prata = prata;
+        this.bronze = bronze;
+        this.foto = foto;
+        this.nascimento = nascimento;
+        this.esportes = esportes;
+    }
+    
+    //Com ID
+    public Atleta(int id, String nome, String cpf, String celular, String email, String sexo, String nacionalidae, String sobre, int ouro, int prata, int bronze, byte[] foto, String nascimento, List<Esporte> esportes) {
+        this.idAtleta = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.celular = celular;
+        this.email = email;
+        this.sexo = sexo;
+        this.nacionalidade = nacionalidae;
         this.sobre = sobre;
         this.ouro = ouro;
         this.prata = prata;
@@ -123,8 +141,8 @@ public class Atleta implements Serializable {
         return sexo;
     }
 
-    public String getNacionalidae() {
-        return nacionalidae;
+    public String getNacionalidade() {
+        return nacionalidade;
     }
 
     public String getSobre() {
@@ -179,8 +197,8 @@ public class Atleta implements Serializable {
         this.sexo = sexo;
     }
 
-    public void setNacionalidae(String nacionalidae) {
-        this.nacionalidae = nacionalidae;
+    public void setNacionalidade(String nacionalidae) {
+        this.nacionalidade = nacionalidae;
     }
 
     public void setSobre(String sobre) {
@@ -227,5 +245,8 @@ public class Atleta implements Serializable {
         this.nascimento = nascimento;
     }
     
-    
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

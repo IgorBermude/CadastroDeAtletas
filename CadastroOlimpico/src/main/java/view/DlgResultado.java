@@ -4,18 +4,48 @@
  */
 package view;
 
+import Model.Atleta;
+import Model.Esporte;
+import Model.Time;
+import Model.TorneioColetivo;
+import Model.TorneioIndividual;
+import control.AtletaTableModel;
+import control.EsporteTableModel;
+import control.GerenciadorInterfaceGrafica;
+import control.TorneioColetivoTableModel;
+import control.TorneioIndividualTableModel;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author 2022122760265
  */
 public class DlgResultado extends javax.swing.JDialog {
+    private TorneioColetivoTableModel tableTorneioColetivoModel;
+    private TorneioIndividualTableModel tableTorneioIndividualModel;
 
+        
     /**
      * Creates new form DlgResultado
      */
-    public DlgResultado(java.awt.Frame parent, boolean modal) {
+    public DlgResultado(java.awt.Frame parent, boolean modal, Esporte esporte, TorneioColetivo torneioColetivo, TorneioIndividual torneioIndividual) {
         super(parent, modal);
         initComponents();
+        
+        if(esporte.getTipo().equals("Coletivo")){
+            tableTorneioColetivoModel = new TorneioColetivoTableModel();
+            table.setModel( tableTorneioColetivoModel );
+            
+            Map<Time, Integer> resultado = torneioColetivo.getResultado();
+            tableTorneioColetivoModel.setLista(resultado);
+        }else{
+            tableTorneioIndividualModel = new TorneioIndividualTableModel();
+            table.setModel( tableTorneioIndividualModel );
+            
+            Map<Atleta, Integer> resultado = torneioIndividual.getResultado();
+            tableTorneioIndividualModel.setLista(resultado);
+        }
     }
 
     /**
@@ -27,18 +57,61 @@ public class DlgResultado extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        txtTitulo = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Resultado");
+
+        txtTitulo.setFont(new java.awt.Font("Segoe UI Semilight", 3, 18)); // NOI18N
+        txtTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtTitulo.setText("Resultado");
+        txtTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                    .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(txtTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -46,5 +119,9 @@ public class DlgResultado extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
+    private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

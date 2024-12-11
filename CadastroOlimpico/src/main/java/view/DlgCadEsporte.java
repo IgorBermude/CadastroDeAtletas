@@ -61,7 +61,6 @@ public class DlgCadEsporte extends javax.swing.JDialog {
         lbldescricao = new javax.swing.JTextPane();
         btnAdicionar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        btnAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Esportes");
@@ -185,15 +184,6 @@ public class DlgCadEsporte extends javax.swing.JDialog {
             }
         });
 
-        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/repeat.png"))); // NOI18N
-        btnAlterar.setMnemonic('A');
-        btnAlterar.setText("Alterar");
-        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAlterarbtnAdicionarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,8 +198,6 @@ public class DlgCadEsporte extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAlterar)
-                        .addGap(92, 92, 92)
                         .addComponent(btnAdicionar)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,8 +215,7 @@ public class DlgCadEsporte extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnAlterar)))
+                    .addComponent(btnCancelar)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(33, 33, 33)
@@ -320,7 +307,7 @@ public class DlgCadEsporte extends javax.swing.JDialog {
 
         // Resetar cores dos labels
         txtnome.setForeground(Color.black);
-        txttipo.setForeground(Color.red);
+        txttipo.setForeground(Color.black);
 
         // Validar nome
         if (lblnome.getText().trim().isEmpty()) {
@@ -359,16 +346,11 @@ public class DlgCadEsporte extends javax.swing.JDialog {
 
 
     
-    private void btnAlterarbtnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarbtnAdicionarActionPerformed
-    
-    }//GEN-LAST:event_btnAlterarbtnAdicionarActionPerformed
-
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollPaneSobre;
     private javax.swing.JButton btnAdicionar;
-    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.ButtonGroup grptipo;
     private javax.swing.JButton jButton2;

@@ -9,6 +9,7 @@ import control.AtletaTableModel;
 import control.GerenciadorInterfaceGrafica;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 
 /**
@@ -32,6 +33,10 @@ public class DlgListarCadastros extends javax.swing.JDialog {
         //Associar a tableModel
         tableAtletaModel = new AtletaTableModel();
         tabela.setModel( tableAtletaModel );
+        
+        //Atualiza a Lista
+        List<Atleta> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().listar(Atleta.class);
+        tableAtletaModel.setLista(lista);
     }
 
     public Atleta getAtlSelecionado() {
@@ -51,14 +56,12 @@ public class DlgListarCadastros extends javax.swing.JDialog {
         btnAtualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
-        cmbFiltrar = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         txtPesq = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         btnSelecionar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        cmbTipo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar");
@@ -77,7 +80,7 @@ public class DlgListarCadastros extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Atleta", "Esporte", "Rank", "Ouro", "Prata", "Bronze"
+                "Atleta", "Esporte", "Ouro", "Prata", "Bronze", "Nacionalidade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -89,10 +92,6 @@ public class DlgListarCadastros extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tabela);
-
-        cmbFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A - Z", "Z - A", "Rank", "Medalhas", "Medalhas de ouro", "Medalhas de prata", "Medalhas de bronze", "Esportes" }));
-
-        jLabel1.setText("Filtrar");
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/search.png"))); // NOI18N
         btnPesquisar.setText("Pesquisar");
@@ -125,7 +124,7 @@ public class DlgListarCadastros extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("Nome:");
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Esporte", "Ouro", "Prata", "Bronze", "Nacionalidade" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,15 +133,11 @@ public class DlgListarCadastros extends javax.swing.JDialog {
             .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(btnAtualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPesquisar)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -156,15 +151,12 @@ public class DlgListarCadastros extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAtualizar)
-                    .addComponent(cmbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                .addComponent(btnAtualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar)
-                    .addComponent(jLabel2))
+                    .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,14 +184,20 @@ public class DlgListarCadastros extends javax.swing.JDialog {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         try {
             String pesq = txtPesq.getText();
+            int tipo = cmbTipo.getSelectedIndex();
             
-            List<Atleta> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().pesquisarAtleta(pesq);
+            List<Atleta> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().pesquisarAtleta(pesq, tipo);
             
+            if ( lista.isEmpty() ) {
+                JOptionPane.showMessageDialog(this,"Atleta não encontrado.", "Pesquisar atleta", JOptionPane.INFORMATION_MESSAGE);
+            } 
             // Atualizar o JTable
             tableAtletaModel.setLista(lista);
             
         } catch (HibernateException ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao pesquisar. "  + ex, "Pesquisar Cliente", JOptionPane.ERROR_MESSAGE );
+            JOptionPane.showMessageDialog(this, "Erro ao pesquisar. "  + ex, "Pesquisar Atleta", JOptionPane.ERROR_MESSAGE );
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "Erro ao pesquisar. "  + ex, "Formato de pesquisa incorreto", JOptionPane.ERROR_MESSAGE );
         }
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -211,7 +209,7 @@ public class DlgListarCadastros extends javax.swing.JDialog {
             atlSelecionado = tableAtletaModel.getAtleta(linha);
 
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione um cliente", "Pesquisar Cliente", JOptionPane.ERROR_MESSAGE );
+            JOptionPane.showMessageDialog(this, "Selecione um atleta", "Pesquisar Atleta", JOptionPane.ERROR_MESSAGE );
         }
 
         this.dispose();
@@ -228,10 +226,10 @@ public class DlgListarCadastros extends javax.swing.JDialog {
                 // Atualizar o JTable
                 tableAtletaModel.remover(linha);
             } catch (HibernateException ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao excluir o cliente. "  + ex, "Pesquisar Cliente", JOptionPane.ERROR_MESSAGE );
+                JOptionPane.showMessageDialog(this, "Erro ao excluir o atleta. "  + ex, "Pesquisar Atleta", JOptionPane.ERROR_MESSAGE );
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione um cliente", "Pesquisar Cliente", JOptionPane.ERROR_MESSAGE );
+            JOptionPane.showMessageDialog(this, "Selecione um atleta", "Pesquisar Atleta", JOptionPane.ERROR_MESSAGE );
         }
 
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -253,9 +251,7 @@ public class DlgListarCadastros extends javax.swing.JDialog {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSelecionar;
-    private javax.swing.JComboBox<String> cmbFiltrar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JComboBox cmbTipo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabela;

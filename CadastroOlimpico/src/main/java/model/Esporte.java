@@ -104,7 +104,7 @@ public class Esporte implements Serializable {
         // Filtra os atletas com base na nacionalidade
         List<Atleta> atletasFiltrados = new ArrayList<>();
         for (Atleta atleta : atletas) {
-            if (atleta.getNacionalidae().equalsIgnoreCase(nacionalidade)) {
+            if (atleta.getNacionalidade().equalsIgnoreCase(nacionalidade)) {
                 atletasFiltrados.add(atleta);
             }
         }

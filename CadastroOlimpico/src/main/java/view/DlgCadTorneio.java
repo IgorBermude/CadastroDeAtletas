@@ -7,13 +7,23 @@ package view;
 import Model.Atleta;
 import Model.Esporte;
 import Model.EsporteColetivo;
+import Model.EsporteIndividual;
 import Model.Time;
 import Model.TorneioColetivo;
 import Model.TorneioIndividual;
 import control.AtletaTableModel;
+import control.FuncoesUteis;
 import control.GerenciadorInterfaceGrafica;
+import control.TimeTableModel;
+import java.awt.Color;
+import java.awt.HeadlessException;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import org.hibernate.Hibernate;
 
 /**
  *
@@ -24,6 +34,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
     
     private AtletaTableModel tableAtletaModel;
     private AtletaTableModel tableAtletaModel2;
+    private TimeTableModel tableTimeModel;
     TorneioColetivo torneioColetivo;
     TorneioIndividual torneioIndividual;
 
@@ -36,13 +47,18 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         pnlinscreveratletas.setVisible(false);
         pnlcadastrartimes.setVisible(false);
         pnlstatus.setVisible(false);
-        GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
+                GerenciadorInterfaceGrafica.getMyInstance().carregarComboDuasClasses(cmbEsporte, EsporteColetivo.class, EsporteIndividual.class);
+
         
         //Associar a tableModel
         tableAtletaModel = new AtletaTableModel();
         tableAtletaModel2 = new AtletaTableModel();
+        tableTimeModel = new TimeTableModel();
         tabelaInscritos.setModel( tableAtletaModel );
         tabelaAtletas.setModel(tableAtletaModel2);
+        tableTimes.setModel(tableTimeModel);
+        
+        btnResultados.setVisible(false);
     }
 
     /**
@@ -62,33 +78,35 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaInscritos = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
+        lblAtletas = new javax.swing.JLabel();
         pnlcadastrartimes = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        lblCadastroTimes = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cmbNacionalidade = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnGerar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tabelaAtletas = new javax.swing.JTable();
-        jLabel10 = new javax.swing.JLabel();
+        lblNome = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
+        adicionarTime = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableTimes = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblEsporte = new javax.swing.JLabel();
         cmbEsporte = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         radioIndividual = new javax.swing.JRadioButton();
         radioColetivo = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lblLocal = new javax.swing.JLabel();
+        lblData = new javax.swing.JLabel();
         txtDt = new javax.swing.JFormattedTextField();
         txtLocal = new javax.swing.JTextField();
         pnlstatus = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        btnIniciar = new javax.swing.JButton();
+        txtStatus = new javax.swing.JLabel();
+        btnResultados = new javax.swing.JToggleButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -129,7 +147,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tabelaInscritos);
 
-        jLabel5.setText("Atletas inscritos");
+        lblAtletas.setText("Atletas inscritos");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -137,14 +155,14 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jLabel5)
+                .addComponent(lblAtletas)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAtletas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -165,7 +183,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
 
         pnlcadastrartimes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel6.setText("Cadastro de Times");
+        lblCadastroTimes.setText("Cadastro de Times");
 
         jLabel7.setText("Nacionalidade: ");
 
@@ -173,18 +191,10 @@ public class DlgCadTorneio extends javax.swing.JDialog {
 
         jLabel8.setText("Atletas:");
 
-        jButton5.setText("Ver todos os times");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnGerar.setText("Gerar time");
+        btnGerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/add.png"))); // NOI18N
-        jButton4.setText("Gerar time");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnGerarActionPerformed(evt);
             }
         });
 
@@ -206,7 +216,28 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         });
         jScrollPane4.setViewportView(tabelaAtletas);
 
-        jLabel10.setText("Nome:");
+        lblNome.setText("Nome:");
+
+        adicionarTime.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/add.png"))); // NOI18N
+        adicionarTime.setText("Adicionar Time");
+        adicionarTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarTimeActionPerformed(evt);
+            }
+        });
+
+        tableTimes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tableTimes);
 
         javax.swing.GroupLayout pnlcadastrartimesLayout = new javax.swing.GroupLayout(pnlcadastrartimes);
         pnlcadastrartimes.setLayout(pnlcadastrartimesLayout);
@@ -215,38 +246,39 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5)
-                        .addGap(46, 46, 46))
-                    .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
-                        .addComponent(jLabel8))
+                    .addComponent(jScrollPane3)
                     .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
                         .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton4)
+                                .addComponent(lblCadastroTimes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                                .addComponent(jLabel8))
                             .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnGerar)
+                                    .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
+                                        .addComponent(lblNome)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(adicionarTime))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnlcadastrartimesLayout.setVerticalGroup(
             pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(pnlcadastrartimesLayout.createSequentialGroup()
                         .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
+                            .addComponent(lblCadastroTimes)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -254,20 +286,20 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                             .addComponent(cmbNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlcadastrartimesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
+                            .addComponent(lblNome)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17)
-                        .addComponent(jButton4)
-                        .addGap(20, 20, 20)
-                        .addComponent(jButton5)
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGerar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adicionarTime)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel3.setText("Esporte:");
+        lblEsporte.setText("Esporte:");
 
         cmbEsporte.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -298,9 +330,9 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Local:");
+        lblLocal.setText("Local:");
 
-        jLabel9.setText("Data:");
+        lblData.setText("Data:");
 
         try {
             txtDt.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -321,7 +353,7 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(lblEsporte)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -333,13 +365,13 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 .addGap(63, 63, 63)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(lblData)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtDt))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblLocal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtLocal)))
+                        .addComponent(txtLocal, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)))
                 .addContainerGap(115, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -347,16 +379,16 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lblEsporte)
                     .addComponent(cmbEsporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblLocal)
                     .addComponent(txtLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(radioIndividual)
                     .addComponent(radioColetivo)
-                    .addComponent(jLabel9)
+                    .addComponent(lblData)
                     .addComponent(txtDt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
@@ -371,18 +403,23 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/accept.png"))); // NOI18N
-        jButton1.setText("Iniciar Torneio");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("- NÃO INICIADO -");
-
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/down.png"))); // NOI18N
-        jToggleButton1.setText("Visualizar Resultados");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/accept.png"))); // NOI18N
+        btnIniciar.setText("Iniciar Torneio");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                btnIniciarActionPerformed(evt);
+            }
+        });
+
+        txtStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtStatus.setText("- NÃO INICIADO -");
+
+        btnResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/png/16x16/down.png"))); // NOI18N
+        btnResultados.setText("Visualizar Resultados");
+        btnResultados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResultadosActionPerformed(evt);
             }
         });
 
@@ -393,20 +430,20 @@ public class DlgCadTorneio extends javax.swing.JDialog {
             .addGroup(pnlstatusLayout.createSequentialGroup()
                 .addComponent(btnCancelar)
                 .addGap(70, 70, 70)
-                .addComponent(jToggleButton1)
+                .addComponent(btnResultados)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1))
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnIniciar))
+            .addComponent(txtStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnlstatusLayout.setVerticalGroup(
             pnlstatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlstatusLayout.createSequentialGroup()
-                .addComponent(jLabel2)
+                .addComponent(txtStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(pnlstatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
-                    .addComponent(jButton1)
-                    .addComponent(jToggleButton1)))
+                    .addComponent(btnIniciar)
+                    .addComponent(btnResultados)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -442,17 +479,17 @@ public class DlgCadTorneio extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        GerenciadorInterfaceGrafica.getMyInstance().abrirResultado();
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void btnResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultadosActionPerformed
+        //GerenciadorInterfaceGrafica.getMyInstance().abrirResultado();
+        Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
+
+        DlgResultado dlgResultado = new DlgResultado(null, true, esporteSelecionado, torneioColetivo, torneioIndividual);
+        dlgResultado.setVisible(true);
+    }//GEN-LAST:event_btnResultadosActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        GerenciadorInterfaceGrafica.getMyInstance().abrirVerTimes();
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void radioIndividualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioIndividualActionPerformed
 
@@ -462,17 +499,14 @@ public class DlgCadTorneio extends javax.swing.JDialog {
 
     }//GEN-LAST:event_radioColetivoActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarActionPerformed
         // Vai pegar todos os atletas da nacionalidade escolhida e que sejam do esporte e jogar em um time
         EsporteColetivo esporteSelecionado = (EsporteColetivo) cmbEsporte.getSelectedItem();
         String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
-        String nome = txtNome.getText();
                 
         List<Atleta> lista = esporteSelecionado.getAtletaNacionalidade(nacionalidade);
-        tableAtletaModel2.setLista(lista);
-        
-        Time time = new Time(nome, nacionalidade, lista, esporteSelecionado);
-    }//GEN-LAST:event_jButton4ActionPerformed
+        tableAtletaModel2.setLista(lista);       
+    }//GEN-LAST:event_btnGerarActionPerformed
 
     private void cmbEsporteComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cmbEsporteComponentShown
         GerenciadorInterfaceGrafica.getMyInstance().carregarCombo(cmbEsporte, Esporte.class);
@@ -480,7 +514,6 @@ public class DlgCadTorneio extends javax.swing.JDialog {
 
     private void cmbEsporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEsporteActionPerformed
         Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
-        
         tableAtletaModel.setLista(esporteSelecionado.getAtletas());
         
         switch (esporteSelecionado.getTipo()) {
@@ -495,41 +528,248 @@ public class DlgCadTorneio extends javax.swing.JDialog {
                 pnlinscreveratletas.setVisible(true);
                 pnlcadastrartimes.setVisible(true);
                 pnlstatus.setVisible(true);
+                
+                List<Time> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().listarTimes((EsporteColetivo)esporteSelecionado);
+                tableTimeModel.setLista(lista);
             }
             default -> JOptionPane.showMessageDialog(this, "Esse esporte não tem tipo");
         }
     }//GEN-LAST:event_cmbEsporteActionPerformed
 
+    private boolean validarCamposTime() {
+        
+        String msgErro = "";
+
+       // Resetar cores dos labels
+       lblNome.setForeground(Color.black);
+       
+
+       // Validar nome
+       if (txtNome.getText().trim().isEmpty()) {
+           msgErro += "Digite o nome.\n";
+           lblNome.setForeground(Color.red);
+       }
+
+       // Exibir mensagens de erro ou retornar verdadeiro
+       if (msgErro.isEmpty()) {
+           return true;
+       } else {
+           JOptionPane.showMessageDialog(this, msgErro, "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+           return false;
+       }
+        
+    }
+    
+    private void limparCamposTime() {
+            txtNome.setText( "" );
+            cmbNacionalidade.setSelectedIndex(0);
+            tabelaAtletas.clearSelection();
+    }
+
+    
     private void txtDtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDtActionPerformed
 
+    private void adicionarTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarTimeActionPerformed
+        // Vai pegar todos os atletas da nacionalidade escolhida e que sejam do esporte e jogar em um time
+        EsporteColetivo esporteSelecionado = (EsporteColetivo) cmbEsporte.getSelectedItem();
+        String nacionalidade = (String) cmbNacionalidade.getSelectedItem();
+        String nome = txtNome.getText();
+                
+        List<Atleta> lista = tableAtletaModel2.getListaAtletas();
+        
+        if( validarCamposTime() ){
+            try{
+                int id = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirTime(nome, nacionalidade, lista, esporteSelecionado);
+
+                JOptionPane.showMessageDialog(this, "Time " + id + " inserido com sucesso." );
+                limparCamposTime();
+                
+                List<Time> listaTime = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().listarTimes((EsporteColetivo)esporteSelecionado);
+                tableTimeModel.setLista(listaTime);
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex, "ERRO Atleta", JOptionPane.ERROR_MESSAGE  );
+            }
+        }
+                    }//GEN-LAST:event_adicionarTimeActionPerformed
+
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        Esporte esporteSelecionado = (Esporte) cmbEsporte.getSelectedItem();
+        String local = txtLocal.getText();
+        String data = txtDt.getText();
+        List<Time> times = tableTimeModel.getListaTimes();
+        List<Atleta> atletas = tableAtletaModel.getListaAtletas();        
+        
+        if ( validarCampos(esporteSelecionado, times, atletas) ) {
+            // INSERIR NO BANCO
+            try {
+                if(esporteSelecionado.getTipo().equals("Coletivo")){
+                    //Carrega o resultado do torneio
+                    Map<Time, Integer> resultado = carregarResultado(times);
+                    adicionarMedalhasColetivo(resultado);
+                    
+                    // INSERIR COLETIVO
+                    torneioColetivo = new TorneioColetivo((EsporteColetivo)esporteSelecionado, data, local, times, resultado);
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirTorneioColetivo(torneioColetivo);
+
+                    JOptionPane.showMessageDialog(this, "Torneio Coletivo inserido com sucesso." );
+                }else{
+                    Map<Atleta, Integer> resultado = carregarResultado(atletas);
+                    adicionarMedalhasIndividual(resultado);
+                    
+                    // INSERIR INDIVIDUAL
+                    torneioIndividual = new TorneioIndividual((EsporteIndividual)esporteSelecionado, data, local, atletas, resultado);
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().inserirTorneioIndividual(torneioIndividual);
+
+                    JOptionPane.showMessageDialog(this, "Torneio Individual inserido com sucesso." );
+                }
+                
+                btnResultados.setVisible(true);
+                txtStatus.setText("-CONCLUIDO-");
+                btnIniciar.setVisible(false);
+                btnCancelar.setText("Sair");
+            }
+            catch (HeadlessException ex) {
+                JOptionPane.showMessageDialog(this, ex, "ERRO Atleta", JOptionPane.ERROR_MESSAGE  );
+            }
+        }
+    }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private <Object> Map<Object, Integer> carregarResultado(List<Object> lista){
+        // Criar o mapa para armazenar o resultado
+        Map<Object, Integer> resultado = new HashMap<>();
+        
+        // Embaralhar aleatoriamente a lista de times
+        Collections.shuffle(lista);
+        
+        // Atribuir a colocação de 1 até N
+        for (int i = 0; i < lista.size(); i++) {
+            Object obj = lista.get(i);
+            resultado.put(obj, i + 1);  // A colocação começa em 1, por isso usamos i + 1
+        }
+        
+        return resultado;
+    }
+    
+    //Adiciona as medalhas aos Atletas de acordo com suas colocações.
+    private void adicionarMedalhasColetivo(Map<Time, Integer> resultado){
+        // Itera sobre o mapa de resultados (Time -> Colocação)
+        for (Map.Entry<Time, Integer> entry : resultado.entrySet()) {
+            Time time = entry.getKey(); // O time
+            Integer colocacao = entry.getValue(); // A colocação do time
+
+            // Verifica a colocação do time
+            if (colocacao == 1) { // Ouro
+                for (Atleta atleta : time.getAtletas()) {
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().adicionarMedalha(atleta.getIdAtleta(), "ouro");
+                }
+            } else if (colocacao == 2) { // Prata
+                for (Atleta atleta : time.getAtletas()) {
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().adicionarMedalha(atleta.getIdAtleta(), "prata");
+                }
+            } else if (colocacao == 3) { // Bronze
+                for (Atleta atleta : time.getAtletas()) {
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().adicionarMedalha(atleta.getIdAtleta(), "bronze");
+                }
+            }
+        }
+    }
+    
+    private void adicionarMedalhasIndividual(Map<Atleta, Integer> resultado) {
+        // Itera sobre o mapa de resultados (Atleta -> Colocação)
+        for (Map.Entry<Atleta, Integer> entry : resultado.entrySet()) {
+            Atleta atleta = entry.getKey(); // O atleta
+            Integer colocacao = entry.getValue(); // A colocação do atleta
+
+            // Verifica a colocação do atleta
+            if (colocacao == 1) { // Ouro
+                GerenciadorInterfaceGrafica.getMyInstance().getGerDom().adicionarMedalha(atleta.getIdAtleta(), "ouro");
+            } else if (colocacao == 2) { // Prata
+                GerenciadorInterfaceGrafica.getMyInstance().getGerDom().adicionarMedalha(atleta.getIdAtleta(), "prata");
+            } else if (colocacao == 3) { // Bronze
+                GerenciadorInterfaceGrafica.getMyInstance().getGerDom().adicionarMedalha(atleta.getIdAtleta(), "bronze");
+            }
+        }
+    }
+    
+    private boolean validarCampos(Esporte esporte, List<Time> times, List<Atleta> atletas) {
+        
+       String msgErro = "";
+
+       // Resetar cores dos labels
+       lblLocal.setForeground(Color.black);
+       lblData.setForeground(Color.black);
+       lblCadastroTimes.setForeground(Color.black);
+       lblAtletas.setForeground(Color.black);
+
+
+       // Validar data
+       if (txtDt.getText().trim().isEmpty()) {
+           msgErro += "Informe a data do torneio.\n";
+           lblData.setForeground(Color.red);
+       } else {
+           Date nascimento = FuncoesUteis.converterStringParaDate(txtDt.getText(), "dd/MM/yyyy");
+           if (nascimento == null) {
+               msgErro += "Data de nascimento inválida.\n";
+               lblData.setForeground(Color.red);
+           }
+       }
+       
+       // Validar Local
+       if (txtLocal.getText().trim().isEmpty()) {
+           msgErro += "Digite o local.\n";
+           lblLocal.setForeground(Color.red);
+       }
+       
+       if(esporte.getTipo().equals("Coletivo")){
+           if(times.isEmpty()){
+               msgErro += "Adicione um time.\n";
+               lblCadastroTimes.setForeground(Color.red);
+           }
+       }else{
+           if(atletas.isEmpty()){
+               msgErro += "Nenhum atleta inscrito :(\n";
+               lblAtletas.setForeground(Color.red);
+           }
+       }
+
+       // Exibir mensagens de erro ou retornar verdadeiro
+       if (msgErro.isEmpty()) {
+           return true;
+       } else {
+           JOptionPane.showMessageDialog(this, msgErro, "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+           return false;
+       }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adicionarTime;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGerar;
+    private javax.swing.JButton btnIniciar;
+    private javax.swing.JToggleButton btnResultados;
     private javax.swing.JComboBox<String> cmbEsporte;
     private javax.swing.JComboBox<String> cmbNacionalidade;
     private javax.swing.ButtonGroup grptipo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel lblAtletas;
+    private javax.swing.JLabel lblCadastroTimes;
+    private javax.swing.JLabel lblData;
+    private javax.swing.JLabel lblEsporte;
+    private javax.swing.JLabel lblLocal;
+    private javax.swing.JLabel lblNome;
     private javax.swing.JPanel pnlcadastrartimes;
     private javax.swing.JPanel pnlinscreveratletas;
     private javax.swing.JPanel pnlstatus;
@@ -537,9 +777,11 @@ public class DlgCadTorneio extends javax.swing.JDialog {
     private javax.swing.JRadioButton radioIndividual;
     private javax.swing.JTable tabelaAtletas;
     private javax.swing.JTable tabelaInscritos;
+    private javax.swing.JTable tableTimes;
     private javax.swing.JFormattedTextField txtDt;
     private javax.swing.JTextField txtLocal;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JLabel txtStatus;
     private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

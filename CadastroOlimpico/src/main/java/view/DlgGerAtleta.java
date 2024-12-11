@@ -11,6 +11,7 @@ import control.EsporteTableModel;
 import control.FuncoesUteis;
 import control.GerenciadorInterfaceGrafica;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         initComponents();
         icone = lblFoto.getIcon();
         
+        atlSelecionado = null;
+        
         //Associar a tableModel
         tableEsporteModel = new EsporteTableModel();
         listEsporte.setModel( tableEsporteModel );
@@ -50,6 +53,19 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         // Atualizar o JTable
         List<Esporte> lista = GerenciadorInterfaceGrafica.getMyInstance().getGerDom().listar(Esporte.class);
         tableEsporteModel.setLista(lista);
+        
+        btnAlterar.setVisible(false);
+        btnAdicionar.setVisible(true);
+    }
+    
+    private void habilitarBotoes() {
+        if ( atlSelecionado == null ) {
+            btnAdicionar.setVisible(true);
+            btnAlterar.setVisible(false);
+        } else {
+            btnAdicionar.setVisible(false);
+            btnAlterar.setVisible(true);
+        }
     }
 
     /**
@@ -99,9 +115,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         txtCelular = new javax.swing.JTextField();
         lblFoto = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        rdbMasculino = new javax.swing.JRadioButton();
+        rdbFeminino = new javax.swing.JRadioButton();
+        rdbOutros = new javax.swing.JRadioButton();
         txtEmail = new javax.swing.JTextField();
         lblEmail = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -347,23 +363,23 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             }
         });
 
-        lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        lblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel15.setText("Sexo");
 
-        grpSexo.add(jRadioButton1);
-        jRadioButton1.setText("Masculino");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        grpSexo.add(rdbMasculino);
+        rdbMasculino.setText("Masculino");
+        rdbMasculino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rdbMasculinoActionPerformed(evt);
             }
         });
 
-        grpSexo.add(jRadioButton2);
-        jRadioButton2.setText("Feminino");
+        grpSexo.add(rdbFeminino);
+        rdbFeminino.setText("Feminino");
 
-        grpSexo.add(jRadioButton3);
-        jRadioButton3.setText("Outros");
+        grpSexo.add(rdbOutros);
+        rdbOutros.setText("Outros");
 
         lblEmail.setText("E-mail");
 
@@ -405,9 +421,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                     .addComponent(lblCelular)
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
+                    .addComponent(rdbOutros)
+                    .addComponent(rdbMasculino)
+                    .addComponent(rdbFeminino)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblCPF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -438,11 +454,11 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1)
+                        .addComponent(rdbMasculino)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)
+                        .addComponent(rdbFeminino)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton3))
+                        .addComponent(rdbOutros))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -502,9 +518,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbNacionalidadeActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void rdbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbMasculinoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_rdbMasculinoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JFileChooser janArq = new JFileChooser();
@@ -526,6 +542,14 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         // Pegar o atleta pesquisado e inserir nos campos.
         atlSelecionado = GerenciadorInterfaceGrafica.getMyInstance().abrirPesqAtleta();     
         
+        if ( atlSelecionado != null ) {
+            try {
+                preencherCampos(atlSelecionado);
+                habilitarBotoes();
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(this, ex, "Preencher dados do cliente", JOptionPane.ERROR_MESSAGE);
+            }
+        }   
     }//GEN-LAST:event_lupaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -534,15 +558,14 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         
-        //Erro por aqui---------------------
         String nome = txtnome.getText();
         String cpf = txtCPF.getText();        
         String sexo;
-        if (jRadioButton1.isSelected()) {
+        if (rdbMasculino.isSelected()) {
             sexo = "Masculino";
-        } else if (jRadioButton2.isSelected()) {
+        } else if (rdbFeminino.isSelected()) {
             sexo = "Feminino";
-        } else if (jRadioButton3.isSelected()) {
+        } else if (rdbOutros.isSelected()) {
             sexo = "Outros"; 
         } else {
             sexo = null; // Ou trate como erro
@@ -554,6 +577,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         List<Esporte> esportes = new ArrayList<>();
         // Obter os índices das linhas selecionadas
         int[] linhasSelecionadas = listEsporte.getSelectedRows();
+        
         // Percorrer os índices e buscar os objetos no modelo da tabela
         for (int linha : linhasSelecionadas) {
             Esporte esporte = (Esporte) tableEsporteModel.getEsporte(linha); // Coluna com o objeto Esporte
@@ -566,7 +590,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
         int ouro = (int) SpinnerMedalhaOuro.getValue();
         int prata = (int) SpinnerMedalhaPrata.getValue();
         int bronze = (int) SpinnerMedalhaBronze.getValue();
-        //---------------------
         
         if ( validarCampos() ) {
             // INSERIR NO BANCO
@@ -581,7 +604,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                     limparCampos();
                 } else {
                     // ALTERAR
-                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarAtleta(nome, cpf, celular, email, sexo,nacionalidade, 
+                    GerenciadorInterfaceGrafica.getMyInstance().getGerDom().alterarAtleta(atlSelecionado.getIdAtleta(), nome, cpf, celular, email, sexo,nacionalidade, 
                             sobre, ouro, prata, bronze, lblFoto.getIcon(), nascimento, esportes);
 
                     JOptionPane.showMessageDialog(this, "Atleta alterado com sucesso." );
@@ -596,7 +619,7 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAdicionarActionPerformed
                                
     private void preencherCampos(Atleta atl) throws ParseException {
-        /*if ( atl != null ) {
+        if ( atl != null ) {
             txtnome.setText( atl.getNome() );
             txtCPF.setText( atl.getCpf() );
             txtDtNascimento.setText( atl.getNascimento() );
@@ -609,22 +632,34 @@ public class DlgGerAtleta extends javax.swing.JDialog {
             SpinnerMedalhaPrata.setValue(0);
             SpinnerMedalhaBronze.setValue(0);
             
-            if ( cli.getSexo() == 'M' ) {
-                rdbMasc.setSelected(true);
-            } else {
-                rdbFemin.setSelected(true);
-            }            
+            if ( atl.getSexo().equals("Masculino") ) {
+                rdbMasculino.setSelected(true);
+            } else if(atl.getSexo().equals("Feminino")){
+                rdbFeminino.setSelected(true);
+            } else{
+                rdbOutros.setSelected(true);
+            }           
             
-            if ( cli.getFoto() != null ) { 
-                ImageIcon imagem = new ImageIcon( cli.getFoto() );
+            if ( atl.getFoto() != null ) { 
+                ImageIcon imagem = new ImageIcon( atl.getFoto() );
                 mostrarFoto(imagem);
             } else {
                 lblFoto.setText("Foto");
                 lblFoto.setIcon(null);
             }
         }
-        // habilitarBotoes();*/
+        habilitarBotoes();
     }
+    
+    private void mostrarFoto(Icon ic) {
+        
+        // Redimensionar
+        ImageIcon imagem = (ImageIcon) ic;
+        imagem.setImage(imagem.getImage().getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_DEFAULT));
+        
+        lblFoto.setText("");                
+        lblFoto.setIcon(imagem);
+    } 
     
     private void limparCampos() {
             atlSelecionado = null;
@@ -648,21 +683,15 @@ public class DlgGerAtleta extends javax.swing.JDialog {
 
        // Resetar cores dos labels
        lblNome.setForeground(Color.black);
-       lblCPF.setForeground(Color.black);
        lblDtNasc.setForeground(Color.black);
        lblCelular.setForeground(Color.black);
        lblEmail.setForeground(Color.black);
+       lblCPF.setForeground(Color.black);
 
        // Validar nome
        if (txtnome.getText().trim().isEmpty()) {
            msgErro += "Digite o nome.\n";
            lblNome.setForeground(Color.red);
-       }
-
-       // Validar CPF
-       if (!FuncoesUteis.isCPF(txtCPF.getText())) {
-           msgErro += "CPF inválido.\n";
-           lblCPF.setForeground(Color.red);
        }
 
        // Validar data de nascimento
@@ -676,6 +705,12 @@ public class DlgGerAtleta extends javax.swing.JDialog {
                lblDtNasc.setForeground(Color.red);
            }
        }
+       
+       //Validar CPF
+        if ( FuncoesUteis.isCPF( txtCPF.getText() ) == false  ) {
+            msgErro = msgErro + "CPF inválido.\n";
+            lblCPF.setForeground(Color.red); 
+        }
 
        // Validar celular
        if (txtCelular.getText().trim().isEmpty()) {
@@ -727,9 +762,6 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
@@ -744,6 +776,9 @@ public class DlgGerAtleta extends javax.swing.JDialog {
     private javax.swing.JTable listEsporte;
     private javax.swing.JButton lupa;
     private javax.swing.JTextPane paneSobre;
+    private javax.swing.JRadioButton rdbFeminino;
+    private javax.swing.JRadioButton rdbMasculino;
+    private javax.swing.JRadioButton rdbOutros;
     private javax.swing.JFormattedTextField txtCPF;
     private javax.swing.JTextField txtCelular;
     private javax.swing.JFormattedTextField txtDtNascimento;
